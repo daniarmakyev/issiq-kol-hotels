@@ -5,5 +5,9 @@
   "profile": "Profile",
   "account": "Account",
   "dashboard": "Dashboard",
-  "logout": "Logout"
+  "logout": "Logout",
+  "learn_more": "More",
+  "beds": "Beds",
+  "sleeping_places": "Capacity",
+  "sq_m": "Sq.M"
 }

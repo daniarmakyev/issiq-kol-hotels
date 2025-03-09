@@ -5,5 +5,9 @@
   "profile": "Профиль",
   "account": "Аккаунт",
   "dashboard": "Башкаруу тактасы",
-  "logout": "Чыгуу"
+  "logout": "Чыгуу",
+  "learn_more": "Билүү",
+  "beds": "Керебеттер",
+  "sleeping_places": "Орундар",
+  "sq_m": "Кв.М"
 }

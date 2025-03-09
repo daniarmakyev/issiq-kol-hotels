@@ -1,0 +1,553 @@
+{
+  "houses": [
+    {
+      "id": 1,
+      "name": {
+        "en": "Cozy house by the lake",
+        "ru": "Уютный дом у озера",
+        "kg": "Уюлдуу үй көл жээгинде",
+        "kz": "Көл жағасындағы ыңғайлы үй"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 42.45,
+        "longitude": 76.9833
+      },
+      "price": 8000,
+      "currency": "KGS",
+      "limit": 6,
+      "beds": 3,
+      "rooms": 4,
+      "bathrooms": 2,
+      "square": 150,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Barbecue",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Мангал",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Мангал",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Барбекю",
+          "Тұрақ"
+        ]
+      },
+      "services": {
+        "en": [
+          "Boat rental"
+        ],
+        "ru": [
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Кеме жалға беру"
+        ]
+      },
+      "description": {
+        "en": "Spacious house with a view of the lake, next to the beach.",
+        "ru": "Просторный дом с видом на озеро, рядом с пляжем.",
+        "kg": "Көлгө караган кең үй, пляждын жанында.",
+        "kz": "Көлге қарайтын кең үй, жағажайға жақын."
+      },
+      "contact": {
+        "phone": "+996 770 123 456",
+        "email": "owner@example.com"
+      },
+      "images": [
+        "https://kaprizissykkul.kg/upload/iblock/685/685804ddcbdb42531b6f913b5384831f.jpg",
+        "https://kaprizissykkul.kg/upload/iblock/6b1/uvjaynoyq4b501pn25uebxyc105gpb7y.webp",
+        "https://kaprizissykkul.kg/upload/iblock/7ae/831liaghylt0ghbnttr7av3np2l3cm14.jpg"
+      ],
+      "availability": {
+        "check_in": "13:00",
+        "check_out": "11:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": true,
+        "cancellation": {
+          "en": "Free cancellation up to 24 hours before check-in",
+          "ru": "Бесплатная отмена за 24 часа до заезда",
+          "kg": "24 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 24 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": {
+        "id": 202,
+        "type": "individual",
+        "name": {
+          "en": "Mederbek Asanov",
+          "ru": "Медербек Асанов",
+          "kg": "Медербек Асанов",
+          "kz": "Медербек Асанов"
+        },
+        "phone": "+996 770 987 654",
+        "email": "mederbek.asanov@example.com"
+      },
+      "services_count": 1,
+      "amenities_count": 3,
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": {
+        "en": "Mountain View House",
+        "ru": "Дом с видом на горы",
+        "kg": "Горгон үй",
+        "kz": "Таулы үй"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 42.1,
+        "longitude": 75.5
+      },
+      "price": 10000,
+      "currency": "KGS",
+      "limit": 8,
+      "beds": 4,
+      "rooms": 5,
+      "bathrooms": 3,
+      "square": 200,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Fireplace",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Камин",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Камин",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Камин",
+          "Тұрақ"
+        ]
+      },
+      "services": {
+        "en": [
+          "Mountain tour"
+        ],
+        "ru": [
+          "Тур по горам"
+        ],
+        "kg": [
+          "Тоо турлары"
+        ],
+        "kz": [
+          "Таулы экскурсиялар"
+        ]
+      },
+      "description": {
+        "en": "Beautiful house with panoramic mountain views and privacy.",
+        "ru": "Прекрасный дом с панорамным видом на горы и уединением.",
+        "kg": "Горгон көрүнүшү менен үй, жеке жашоо менен.",
+        "kz": "Тауларға панорамалық көрінісі бар үй, жеке өмір"
+      },
+      "contact": {
+        "phone": "+996 770 234 567",
+        "email": "owner2@example.com"
+      },
+      "images": [
+        "https://kaprizissykkul.kg/upload/iblock/bfb/adp8zjge10punss06zagkewphrtep6qp.webp",
+        "https://kaprizissykkul.kg/upload/iblock/e6d/e6d25860c386234e0aeb3cb072a23be7.jpg",
+        "https://kaprizissykkul.kg/upload/iblock/52b/3gds3dsni84nbv334i4a8etvoxzt1ugt.jpg"
+      ],
+      "availability": {
+        "check_in": "14:00",
+        "check_out": "12:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": false,
+        "cancellation": {
+          "en": "Free cancellation up to 48 hours before check-in",
+          "ru": "Бесплатная отмена за 48 часов до заезда",
+          "kg": "48 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 48 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": {
+        "id": 203,
+        "type": "individual",
+        "name": {
+          "en": "Aibek Sultanov",
+          "ru": "Айбек Султанов",
+          "kg": "Айбек Султанов",
+          "kz": "Айбек Сұлтанов"
+        },
+        "phone": "+996 770 876 543",
+        "email": "aybek.sultanov@example.com"
+      },
+      "services_count": 1,
+      "amenities_count": 3,
+      "rating": 4.2
+    },
+    {
+      "id": 3,
+      "name": {
+        "en": "Modern Cottage in the Mountains",
+        "ru": "Современный коттедж в горах",
+        "kg": "Заманауи коттедж тоолордо",
+        "kz": "Таудағы заманауи коттедж"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 42.5,
+        "longitude": 74.8
+      },
+      "price": 12000,
+      "currency": "KGS",
+      "limit": 4,
+      "beds": 2,
+      "rooms": 3,
+      "bathrooms": 1,
+      "square": 100,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Fireplace",
+          "Parking",
+          "Hot tub"
+        ],
+        "ru": [
+          "WiFi",
+          "Камин",
+          "Парковка",
+          "Гидромассажная ванна"
+        ],
+        "kg": [
+          "WiFi",
+          "Камин",
+          "Тойду",
+          "Гидромассажная ванна"
+        ],
+        "kz": [
+          "WiFi",
+          "Камин",
+          "Тұрақ",
+          "Гидромассажды ванна"
+        ]
+      },
+      "services": {
+        "en": [
+          "Transfer"
+        ],
+        "ru": [
+          "Трансфер"
+        ],
+        "kg": [
+          "Транспорт"
+        ],
+        "kz": [
+          "Тасымалдау"
+        ]
+      },
+      "description": {
+        "en": "Elegant cottage with panoramic mountain views.",
+        "ru": "Элегантный коттедж с панорамным видом на горы.",
+        "kg": "Элеганттуу коттедж, тоолордун панорамалык көрүнүшү менен.",
+        "kz": "Панорамалық тау көрінісі бар элегантты коттедж"
+      },
+      "contact": {
+        "phone": "+996 770 345 678",
+        "email": "owner3@example.com"
+      },
+      "images": [
+        "https://silence-hotel-ik.com/upload/resize_cache/iblock/0aa/1920_1080_2/4qojj4r39heuh76f4c8qpsgaaozjon09.jpg",
+        "https://kaprizissykkul.kg/upload/resize_cache/iblock/ff7/1920_1920_1/8tfwc1d2qdzfipr1a4qxsvv2bvshl4w0.webp",
+        "https://silence-hotel-ik.com/upload/resize_cache/iblock/e12/1920_1080_2/8j0wa3k7q4q75qdw5tgx2gmtnwk5fkzf.jpg"
+      ],
+      "availability": {
+        "check_in": "15:00",
+        "check_out": "11:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": true,
+        "cancellation": {
+          "en": "Free cancellation up to 72 hours before check-in",
+          "ru": "Бесплатная отмена за 72 часа до заезда",
+          "kg": "72 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 72 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": {
+        "id": 204,
+        "type": "individual",
+        "name": {
+          "en": "Aydinbek Omarov",
+          "ru": "Айдынбек Омаров",
+          "kg": "Айдынбек Омаров",
+          "kz": "Айдынбек Омаров"
+        },
+        "phone": "+996 770 567 890",
+        "email": "aydinbek.omarov@example.com"
+      },
+      "services_count": 1,
+      "amenities_count": 4,
+      "rating": 4.8
+    },
+    {
+      "id": 4,
+      "name": {
+        "en": "Lakeside Retreat",
+        "ru": "Отдых у озера",
+        "kg": "Көл жээгиндеги эс алуу",
+        "kz": "Көл жағасындағы демалыс"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 41.5,
+        "longitude": 75.0
+      },
+      "price": 9500,
+      "currency": "KGS",
+      "limit": 7,
+      "beds": 3,
+      "rooms": 4,
+      "bathrooms": 2,
+      "square": 160,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Sauna",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Сауна",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Сауна",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Сауна",
+          "Тұрақ"
+        ]
+      },
+      "services": {
+        "en": [
+          "Fishing",
+          "Boat rental"
+        ],
+        "ru": [
+          "Рыбалка",
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Балык уулоо",
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Балық аулау",
+          "Кеме жалға беру"
+        ]
+      },
+      "description": {
+        "en": "A peaceful retreat by the serene Son-Kul lake.",
+        "ru": "Тихий отдых у спокойного озера Сон-Куль.",
+        "kg": "Тынчтык жана тынчтыкка толгон эс алуу Сон-Кул көлүнүн жээгинде.",
+        "kz": "Сон-Көл көлінің тыныш жағасында тыныш демалыс"
+      },
+      "contact": {
+        "phone": "+996 770 678 901",
+        "email": "owner4@example.com"
+      },
+      "images": [
+        "https://kaprizissykkul.kg/upload/iblock/6b1/uvjaynoyq4b501pn25uebxyc105gpb7y.webp",
+        "https://kaprizissykkul.kg/upload/iblock/685/685804ddcbdb42531b6f913b5384831f.jpg",
+        "https://kaprizissykkul.kg/upload/iblock/7ae/831liaghylt0ghbnttr7av3np2l3cm14.jpg"
+      ],
+      "availability": {
+        "check_in": "13:00",
+        "check_out": "11:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": true,
+        "cancellation": {
+          "en": "Free cancellation up to 72 hours before check-in",
+          "ru": "Бесплатная отмена за 72 часа до заезда",
+          "kg": "72 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 72 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": {
+        "id": 205,
+        "type": "individual",
+        "name": {
+          "en": "Kairat Zhumashev",
+          "ru": "Қайрат Жұмашев",
+          "kg": "Кайрат Жумашев",
+          "kz": "Қайрат Жұмашев"
+        },
+        "phone": "+996 770 123 654",
+        "email": "kairat.zhumashev@example.com"
+      },
+      "services_count": 2,
+      "amenities_count": 3,
+      "rating": 4.0
+    },
+    {
+      "id": 5,
+      "name": {
+        "en": "Forest Escape Cabin",
+        "ru": "Кабинка в лесу",
+        "kg": "Ормонго бекиткен кабина",
+        "kz": "Ормандағы коттедж"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 41.2,
+        "longitude": 72.9
+      },
+      "price": 7000,
+      "currency": "KGS",
+      "limit": 4,
+      "beds": 2,
+      "rooms": 3,
+      "bathrooms": 1,
+      "square": 90,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Тұрақ"
+        ]
+      },
+      "services": {
+        "en": [
+          "Forest tour"
+        ],
+        "ru": [
+          "Тур по лесу"
+        ],
+        "kg": [
+          "Ормон турлары"
+        ],
+        "kz": [
+          "Орман турлары"
+        ]
+      },
+      "description": {
+        "en": "Cozy cabin for those looking to escape into the forest.",
+        "ru": "Уютная кабина для тех, кто хочет уединиться в лесу.",
+        "kg": "Ормонго качып кеткендер үчүн уюттуу кабина.",
+        "kz": "Орманда қашып кетуді қалайтындарға арналған ыңғайлы кабина"
+      },
+      "contact": {
+        "phone": "+996 770 234 890",
+        "email": "owner5@example.com"
+      },
+      "images": [
+        "https://kaprizissykkul.kg/upload/iblock/bfb/adp8zjge10punss06zagkewphrtep6qp.webp",
+        "https://kaprizissykkul.kg/upload/iblock/e6d/e6d25860c386234e0aeb3cb072a23be7.jpg",
+        "https://kaprizissykkul.kg/upload/iblock/52b/3gds3dsni84nbv334i4a8etvoxzt1ugt.jpg"
+      ],
+      "availability": {
+        "check_in": "12:00",
+        "check_out": "10:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": true,
+        "cancellation": {
+          "en": "Free cancellation up to 72 hours before check-in",
+          "ru": "Бесплатная отмена за 72 часа до заезда",
+          "kg": "72 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 72 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": {
+        "id": 206,
+        "type": "individual",
+        "name": {
+          "en": "Dina Sulaimanova",
+          "ru": "Дина Сулейманова",
+          "kg": "Дина Сулейманова",
+          "kz": "Дина Сүлейманова"
+        },
+        "phone": "+996 770 456 789",
+        "email": "dina.sulaimanova@example.com"
+      },
+      "services_count": 1,
+      "amenities_count": 2,
+      "rating": 3.8
+    }
+  ]
+}

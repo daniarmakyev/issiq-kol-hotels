@@ -5,5 +5,9 @@
   "profile": "Профиль",
   "account": "Аккаунт",
   "dashboard": "Панель управления",
-  "logout": "Выйти"
+  "logout": "Выйти",
+  "learn_more": "Больше",
+  "beds": "Кровати",
+  "sleeping_places": "Мест",
+  "sq_m": "Кв.М"
 }
