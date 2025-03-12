@@ -1,5 +1,6 @@
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getHouses, getSpecialHouses } from "./house.action";
+"use client"
+import { createSlice } from "@reduxjs/toolkit";
+import { getHouses, getHousesById, getSpecialHouses } from "./house.action";
 
 interface LocalizedText {
     en: string;
@@ -32,12 +33,11 @@ interface Availability {
     available_count: number;
 }
 
-interface CancellationPolicy extends LocalizedText { }
-
 interface Policies {
     pets_allowed: boolean;
-    cancellation: CancellationPolicy;
+    cancellation: LocalizedText; 
 }
+
 
 interface Owner {
     id: number;
@@ -69,19 +69,21 @@ export interface House {
     availability: Availability;
     policies: Policies;
     owner: Owner;
-    services_count: Number;
-    amenities_count: Number;
-    rating:Number
+    services_count: number;
+    amenities_count: number;
+    rating:number
 }
 
 export interface HousesResponse {
     houses: House[];
-    special:House[]
+    special:House[];
+    house: House[]
 }
 
 const INIT_STATE: HousesResponse = {
     houses: [],
-    special:[]
+    special:[],
+    house:[]
 };
 
 export const houseSlice = createSlice({
@@ -93,6 +95,8 @@ export const houseSlice = createSlice({
             state.houses = payload;      
         }).addCase(getSpecialHouses.fulfilled, (state, {payload} ) => {
             state.special = payload;      
+        }).addCase(getHousesById.fulfilled, (state, {payload} ) => {
+            state.house = payload;      
         })
     },
 });

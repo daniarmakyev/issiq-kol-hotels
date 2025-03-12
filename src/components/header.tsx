@@ -21,7 +21,7 @@ const langs = ["en", "ru", "kg", "kz"];
 function ResponsiveAppBar() {
   const { t } = useTranslation();
   const lang = Cookies.get("i18next");
-  const [language, setLang] = React.useState(lang);
+  const [ , setLang] = React.useState(lang);
 
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
@@ -73,7 +73,7 @@ function ResponsiveAppBar() {
           variant="h6"
           noWrap
           component="a"
-          href="#app-bar-with-responsive-menu"
+          href="/"
           sx={{
             mr: 2,
             display: { xs: "none", md: "flex" },
@@ -137,9 +137,10 @@ function ResponsiveAppBar() {
         </Box>
         <Typography
           variant="h5"
+
           noWrap
           component="a"
-          href="#app-bar-with-responsive-menu"
+          href="/"
           sx={{
             mr: 2,
             display: { xs: "flex", md: "none" },
@@ -202,7 +203,7 @@ function ResponsiveAppBar() {
         <Box sx={{ flexGrow: 0, gap: "20px", display: "flex" }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Avatar alt="Remy Sharp" src="" />
             </IconButton>
           </Tooltip>
           <Menu

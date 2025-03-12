@@ -13,6 +13,8 @@ import "../i18n";
 import { CssVarsProvider } from "@mui/joy";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
@@ -33,7 +35,24 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <Provider store={store}>
               <ResponsiveAppBar />
-              <CssVarsProvider>{children}</CssVarsProvider>
+              <CssVarsProvider>
+                <React.Suspense
+                  fallback={
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  }
+                >
+                  {children}
+                </React.Suspense>
+              </CssVarsProvider>
             </Provider>
           </ThemeProvider>
         </AppRouterCacheProvider>
