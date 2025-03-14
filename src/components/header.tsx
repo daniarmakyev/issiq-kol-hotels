@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Cookies from "js-cookie";
 
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { formGroupClasses } from "@mui/material";
 
 const pages = ["hotels", "aboutus", "contacts"];
 const settings = ["profile", "account", "dashboard", "logout"];
@@ -21,7 +23,7 @@ const langs = ["en", "ru", "kg", "kz"];
 function ResponsiveAppBar() {
   const { t } = useTranslation();
   const lang = Cookies.get("i18next");
-  const [ , setLang] = React.useState(lang);
+  const [, setLang] = React.useState(lang);
 
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
@@ -72,8 +74,6 @@ function ResponsiveAppBar() {
         <Typography
           variant="h6"
           noWrap
-          component="a"
-          href="/"
           sx={{
             mr: 2,
             display: { xs: "none", md: "flex" },
@@ -83,7 +83,7 @@ function ResponsiveAppBar() {
             textDecoration: "none",
           }}
         >
-          LOGO
+          <Link href={"/"} replace={false}>LOGO</Link>
         </Typography>
 
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -122,25 +122,27 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ textTransform: "lowercase" }}
               >
-                <Typography
-                  sx={{
+                <Link
+                  style={{
                     fontSize: "16px",
                     fontWeight: "medium",
-                    textTransform: "lowercase",
+                    textTransform: "capitalize",
+                    textDecoration:"none",
+                    color:"#262729",
+                    
                   }}
+                  replace={false}
+                  href={`/${page}`}  
                 >
                   {t(page)}
-                </Typography>
+                </Link>
               </MenuItem>
             ))}
           </Menu>
         </Box>
         <Typography
           variant="h5"
-
           noWrap
-          component="a"
-          href="/"
           sx={{
             mr: 2,
             display: { xs: "flex", md: "none" },
@@ -151,28 +153,33 @@ function ResponsiveAppBar() {
             textDecoration: "none",
           }}
         >
-          LOGO
+          <Link href={"/"} replace={false}>LOGO</Link>
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {pages.map((page) => (
-            <Button
+            <Link
               key={page}
               onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
+              style={{
+                marginLeft: 2,
+                marginRight: 2,
                 color: "black",
                 display: "block",
                 fontSize: "16px",
                 fontWeight: "medium",
               }}
+              href={`/${page}`}
             >
               {t(page)}
-            </Button>
+            </Link>
           ))}
         </Box>
         <Box sx={{ marginRight: "20px" }}>
           <Tooltip title="open Lang menu">
-            <IconButton className="py-0.5 px-1.5 uppercase" onClick={handleOpenLangMenu}>
+            <IconButton
+              className="py-0.5 px-1.5 uppercase"
+              onClick={handleOpenLangMenu}
+            >
               {lang}
             </IconButton>
           </Tooltip>
@@ -193,7 +200,13 @@ function ResponsiveAppBar() {
           >
             {langs.map((lang) => (
               <MenuItem key={lang} onClick={() => changeLnaguage(lang)}>
-                <Typography sx={{ fontSize: "16px", fontWeight: "medium", textTransform:"uppercase" }}>
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "medium",
+                    textTransform: "uppercase",
+                  }}
+                >
                   {lang}
                 </Typography>
               </MenuItem>

@@ -1,6 +1,7 @@
 "use client"
 import { createSlice } from "@reduxjs/toolkit";
 import { getHouses, getHousesById, getSpecialHouses } from "./house.action";
+import { IPag } from "@/app/hotels/page";
 
 interface LocalizedText {
     en: string;
@@ -75,13 +76,13 @@ export interface House {
 }
 
 export interface HousesResponse {
-    houses: House[];
+    houses: IPag | null;
     special:House[];
     house: House[]
 }
 
 const INIT_STATE: HousesResponse = {
-    houses: [],
+    houses: null,
     special:[],
     house:[]
 };

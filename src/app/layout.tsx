@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Montserrat } from "next/font/google";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import dynamic from "next/dynamic";
@@ -22,40 +21,19 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="text-dark">
       <head />
       <body className={`${montserrat.className} bg-gray`}>
-        <AppRouterCacheProvider>
+
           <ThemeProvider theme={theme}>
             <Provider store={store}>
               <ResponsiveAppBar />
-              <CssVarsProvider>
-                <React.Suspense
-                  fallback={
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100vh",
-                      }}
-                    >
-                      <CircularProgress />
-                    </div>
-                  }
-                >
-                  {children}
-                </React.Suspense>
-              </CssVarsProvider>
+              <CssVarsProvider>{children}</CssVarsProvider>
             </Provider>
           </ThemeProvider>
-        </AppRouterCacheProvider>
+
       </body>
     </html>
   );

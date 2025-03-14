@@ -54,20 +54,18 @@ const Page = () => {
           </h1>
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
-          <div>
+          <div className="flex items-center flex-wrap gap-2">
             <LocationOnOutlinedIcon />
             <span className="font-semibold capitalize">{t("location")}:</span>
           </div>
           {house.location?.[lang as keyof typeof house.location]}
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
-          <div className="flex flex-wrap">
-            <BedOutlinedIcon />
-            <span className="font-semibold capitalize">{t("details")}:</span>
-            <div>
-              {house.beds} {t("beds")}, {house.rooms} {t("rooms")},{" "}
-              {house.bathrooms} {t("bathrooms")}, {house.square} m²
-            </div>
+          <BedOutlinedIcon />
+          <span className="font-semibold capitalize">{t("details")}:</span>
+          <div>
+            {house.beds} {t("beds")}, {house.rooms} {t("rooms")},{" "}
+            {house.bathrooms} {t("bathrooms")}, {house.square} m²
           </div>
         </div>
         <div className="flex items-center gap-2 text-lg">
@@ -166,7 +164,9 @@ const Page = () => {
           <h2 className="text-xl md:text-2xl font-bold mb-2 capitalize">
             {t("availability")}
           </h2>
-          <h3 className="text-md md:text-lg font-bold mb-2 capitalize">График:</h3>
+          <h3 className="text-md md:text-lg font-bold mb-2 capitalize">
+            График:
+          </h3>
           <div className="flex items-center gap-2 text-lg">
             <CalendarTodayOutlinedIcon />
             <span className="font-semibold capitalize">

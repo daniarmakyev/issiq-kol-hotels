@@ -24,10 +24,10 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
   return (
-    <div className="flex justify-center md:justify-between gap-2.5 w-full md:flex-nowrap flex-wrap mt-3.5">
+    <div className="flex justify-center lg:justify-between gap-2.5 w-full lg:flex-nowrap flex-wrap mt-3.5">
       {special.length ? (
         special.map((house) => (
-          <Card sx={{ maxWidth: 350, width: "100%", p: "10px" }} key={house.id}>
+          <Card sx={{ maxWidth: 350, width: "100%", p: "10px",minWidth:320 }} key={house.id}>
             <div style={{ position: "relative" }}>
               <AspectRatio minHeight="120px" maxHeight="200px">
                 <Image

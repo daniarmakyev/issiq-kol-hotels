@@ -5,7 +5,7 @@ import mainPic from "../../public/image/main_pic.jpg";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getSpecialHouses } from "@/store/house/house.action";
-// import HotOfferCards from "@/components/hotOffer";
+import HotOfferCards from "@/components/hotOffer";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -20,9 +20,6 @@ const HomePage = () => {
   if (!mounted) {
     return null;
   }
-
-  console.log(special);
-  
 
   return (
     <div className="bg-white z-[-2] pb-5">
@@ -48,7 +45,7 @@ const HomePage = () => {
         <h2 className="lg:text-4xl md:text-3xl text-2xl font-semibold">
           {t("best_offers")}
         </h2>
-        {/* <HotOfferCards special={special} /> */}
+        <HotOfferCards special={special} />
       </div>
     </div>
   );

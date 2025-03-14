@@ -44,3 +44,22 @@
     color: #262729;
   }
 }
+.bg-gray {
+  background-color: #F7F7F7;
+}
+
+.text-blue {
+  color: #2a90d9;
+}
+.bg-blue {
+  background-color: #2a90d9;
+}
+.text-orange {
+  color: #ee685f;
+}
+.bg-orange {
+  background-color: #ee685f;
+}
+.text-dark {
+  color: #262729;
+}
