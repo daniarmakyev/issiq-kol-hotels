@@ -34,5 +34,6 @@
   "phone": "phone",
   "email": "email",
   "name": "name",
-  "schedule": "schedule"
+  "schedule": "schedule",
+  "login":"Sign in"
 }

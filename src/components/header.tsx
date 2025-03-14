@@ -18,13 +18,13 @@ import Link from "next/link";
 import { formGroupClasses } from "@mui/material";
 
 const pages = ["hotels", "aboutus", "contacts"];
-const settings = ["profile", "account", "dashboard", "logout"];
+const settings = ["", ""];
 const langs = ["en", "ru", "kg", "kz"];
 function ResponsiveAppBar() {
   const { t } = useTranslation();
   const lang = Cookies.get("i18next");
   const [, setLang] = React.useState(lang);
-
+  const id = localStorage.getItem("id");
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
     Cookies.set("i18next", languageCode);
@@ -83,7 +83,9 @@ function ResponsiveAppBar() {
             textDecoration: "none",
           }}
         >
-          <Link href={"/"} replace={false}>LOGO</Link>
+          <Link href={"/"} replace={false}>
+            LOGO
+          </Link>
         </Typography>
 
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -127,12 +129,11 @@ function ResponsiveAppBar() {
                     fontSize: "16px",
                     fontWeight: "medium",
                     textTransform: "capitalize",
-                    textDecoration:"none",
-                    color:"#262729",
-                    
+                    textDecoration: "none",
+                    color: "#262729",
                   }}
                   replace={false}
-                  href={`/${page}`}  
+                  href={`/${page}`}
                 >
                   {t(page)}
                 </Link>
@@ -153,12 +154,15 @@ function ResponsiveAppBar() {
             textDecoration: "none",
           }}
         >
-          <Link href={"/"} replace={false}>LOGO</Link>
+          <Link href={"/"} replace={false}>
+            LOGO
+          </Link>
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {pages.map((page) => (
             <Link
               key={page}
+              replace={false}
               onClick={handleCloseNavMenu}
               style={{
                 marginLeft: 2,
@@ -235,13 +239,45 @@ function ResponsiveAppBar() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography sx={{ fontSize: "16px", fontWeight: "medium" }}>
-                  {t(setting)}
-                </Typography>
-              </MenuItem>
-            ))}
+            <div className="flex flex-col gap-2 px-3">
+              {id ? (
+                <>
+                  <Link
+                    href={`/profile:id`}
+                    replace={false}
+                    style={{ fontSize: "16px", fontWeight: "medium" }}
+                    onClick={handleCloseUserMenu}
+                  >
+                    {t("profile")}
+                  </Link>
+                  <Link
+                    href={`/account:1`}
+                    replace={false}
+                    style={{ fontSize: "16px", fontWeight: "medium" }}
+                    onClick={handleCloseUserMenu}
+                  >
+                    {t("account")}
+                  </Link>{" "}
+                  <Link
+                    href={"/dashboard"}
+                    replace={false}
+                    style={{ fontSize: "16px", fontWeight: "medium" }}
+                    onClick={handleCloseUserMenu}
+                  >
+                    {t("dashboard")}
+                  </Link>
+                  <Button
+                    style={{ fontSize: "16px", fontWeight: "medium" }}
+                  >
+                    {t("logout")}
+                  </Button>{" "}
+                </>
+              ) : (
+                <Button style={{ fontSize: "16px", fontWeight: "medium" }}>
+                  {t("login")}
+                </Button>
+              )}
+            </div>
           </Menu>
         </Box>
       </Toolbar>

@@ -1264,5 +1264,22 @@
       "amenities_count": 1,
       "rating": 2.0
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "type": "individual",
+      "name": {
+        "en": "Oleg Smirnov",
+        "ru": "Олег Смирнов",
+        "kg": "Олег Смирнов",
+        "kz": "Олег Смирнов"
+      },
+      "phone": "+996 770 444 222",
+      "email": "oleg.smirnov@example.com",
+      "favorites":[],
+      "hotels":[],
+      "password":"danidanidani"
+    }
   ]
 }

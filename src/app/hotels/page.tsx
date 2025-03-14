@@ -266,12 +266,12 @@ const Page = () => {
                   <CardContent
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "center",
                       flexDirection: "row",
                       flexWrap: "nowrap",
                     }}
                   >
-                    <Typography
+                    <CardContent
                       sx={{
                         fontSize: "sm",
                         fontWeight: "sm",
@@ -285,7 +285,7 @@ const Page = () => {
                     >
                       <Image src={bed} alt="bed" width={24} height={24} />
                       {house.beds} {t("beds")}
-                    </Typography>
+                    </CardContent>
                     <CardContent
                       sx={{
                         fontSize: "sm",
@@ -332,7 +332,7 @@ const Page = () => {
                 </Card>
               ))}
             </div>
-            <div className="flex justify-center mt-4 mb-4">
+            <div className="flex justify-center pt-4 pb-4">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={!houses!.prev}

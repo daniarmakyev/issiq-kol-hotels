@@ -107,7 +107,7 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
                 flexWrap: "nowrap",
               }}
             >
-              <Typography
+              <CardContent
                 sx={{
                   fontSize: "sm",
                   fontWeight: "sm",
@@ -121,7 +121,7 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
               >
                 <Image src={bed} alt="bed" width={24} height={24} />
                 {house.beds} {t("beds")}
-              </Typography>
+              </CardContent>
               <CardContent
                 sx={{
                   fontSize: "sm",
