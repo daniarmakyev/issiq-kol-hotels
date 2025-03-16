@@ -69,7 +69,7 @@ export interface House {
     images: string[];
     availability: Availability;
     policies: Policies;
-    owner: Owner;
+    owner: number;
     services_count: number;
     amenities_count: number;
     rating:number

@@ -5,9 +5,9 @@ import { House } from './house.slice';
 
 
 export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, item, low }: { page: number | string; item: string | null; low: string | null }) => {
-    const { data } = await axios.get(`http://localhost:3001/houses?_page=${page}&_per_page=9&_sort=${item ?? "price"}&_order=${low || "desc"}`);
+    const { data } = await axios.get(`http://localhost:3001/houses?_page=${page}&_per_page=9&_sort=${item ?? "rating"}&_order=${low || "desc"}`);
     if (low == "desc") {
-         console.log(data.data.reverse());
+         data.data.reverse()
          return data 
     } else {
         return data;

@@ -18,6 +18,7 @@
     "@mui/material": "^6.4.6",
     "@next/bundle-analyzer": "^15.2.2",
     "@reduxjs/toolkit": "^2.6.0",
+    "@toolpad/studio-runtime": "^0.13.0",
     "axios": "^1.8.1",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",

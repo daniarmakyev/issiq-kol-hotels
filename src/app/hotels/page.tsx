@@ -24,7 +24,10 @@ import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getHouses } from "@/store/house/house.action";
 import { useState, useEffect } from "react";
 import { House } from "@/store/house/house.slice";
-const arr = [1, 2, 3];
+import { addFavorite, getUserById } from "@/store/user/user.action";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+const arr = [1, 2, 3, 4, 5, 6];
 export interface IPag {
   first: number;
   prev: boolean | number;
@@ -40,11 +43,13 @@ const Page = () => {
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const houses = useAppSelector((state) => state.houses.houses);
+  const { user } = useAppSelector((state) => state.users);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [checked, setCheked] = useState(false);
   const [lowhigh, setLowhigh] = useState("");
   const [sortItem, setSortItem] = useState<string | null | undefined>(null);
-
+  const id = localStorage.getItem("id");
   const handleChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
@@ -54,8 +59,27 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(getHouses({ page: currentPage, item: sortItem!, low: lowhigh }));
+
     setMounted(true);
   }, [dispatch, currentPage, sortItem, checked, lowhigh]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getUserById(id));
+    }
+  }, [dispatch]);
+
+  const handleFavoriteClick = (houseId: number) => {
+    if (user?.favorites) {
+      const updatedFavorites = user?.favorites.includes(houseId)
+        ? user?.favorites.filter((id) => id !== houseId)
+        : [...user?.favorites, Number(houseId)];
+
+      dispatch(
+        addFavorite({ id: user?.id, data: { favorites: updatedFavorites } })
+      );
+    }
+  };
 
   if (!mounted) {
     return null;
@@ -206,6 +230,7 @@ const Page = () => {
                       aria-label="bookmark"
                       variant="plain"
                       size="sm"
+                      onClick={() => handleFavoriteClick(Number(house.id))}
                       sx={{
                         position: "absolute",
                         top: "0.9rem",
@@ -215,7 +240,11 @@ const Page = () => {
                         opacity: "0.7",
                       }}
                     >
-                      <Image src={save} alt="save" />
+                      {user && user?.favorites?.includes(Number(house.id)) ? (
+                        <FavoriteIcon />
+                      ) : (
+                        <FavoriteBorderIcon />
+                      )}
                     </IconButton>
                     <IconButton
                       aria-label="ratings"
@@ -351,7 +380,7 @@ const Page = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center md:justify-between gap-2.5 w-full md:flex-nowrap flex-wrap mt-3.5">
+          <div className="flex justify-center md:justify-between gap-2.5 w-full  flex-wrap mt-3.5">
             {arr.map((_, index) => (
               <Card key={index} variant="outlined" sx={{ width: 350 }}>
                 <AspectRatio ratio="21/9">

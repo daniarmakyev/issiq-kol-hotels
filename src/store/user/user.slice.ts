@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserById } from "./user.action";
+import { addFavorite, getUserById, login } from "./user.action";
 
 interface LocalizedText {
     en: string;
@@ -7,7 +7,7 @@ interface LocalizedText {
     kg: string;
     kz: string;
 }
-interface User {
+export interface User {
     id: number;
     type: string;
     name: LocalizedText;
@@ -18,7 +18,7 @@ interface User {
     password: string
 }
 
-interface UserRespons {
+export interface UserRespons {
     user: User | null
 }
 
@@ -26,15 +26,22 @@ const INIT_STATE: UserRespons = {
     user: null
 };
 
-export const houseSlice = createSlice({
+export const userSlice = createSlice({
     name: "users",
     initialState: INIT_STATE,
-    reducers: {},
+    reducers: {
+        logout: user => { localStorage.removeItem("id"), user.user = null }
+    },
     extraReducers: (builder) => {
-        builder.addCase(getUserById.fulfilled, (state, {payload}) => {
+        builder.addCase(getUserById.fulfilled, (state, { payload }) => {
+            state.user = payload
+        }).addCase(login.fulfilled, (state, { payload }) => {
+            state.user = payload
+        }).addCase(addFavorite.fulfilled, (state, { payload }) => {
             state.user = payload
         })
     },
 });
+export const { logout } = userSlice.actions;
 
-export default houseSlice.reducer;
+export default userSlice.reducer;

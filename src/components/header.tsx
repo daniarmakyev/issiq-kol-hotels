@@ -8,14 +8,14 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Cookies from "js-cookie";
 
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import { formGroupClasses } from "@mui/material";
+import { useAppDispatch } from "@/helpers/hooks";
+import { logout } from "@/store/user/user.slice";
 
 const pages = ["hotels", "aboutus", "contacts"];
 const settings = ["", ""];
@@ -31,6 +31,10 @@ function ResponsiveAppBar() {
     setAnchorElLang(null);
     window.location.reload();
   }
+  const dispatch = useAppDispatch();
+  React.useEffect(() => {
+    const id = localStorage.getItem("id");
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -239,11 +243,11 @@ function ResponsiveAppBar() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <div className="flex flex-col gap-2 px-3">
+            <div className="flex flex-col items-start gap-2 px-3">
               {id ? (
                 <>
                   <Link
-                    href={`/profile:id`}
+                    href={`/profile/${id}`}
                     replace={false}
                     style={{ fontSize: "16px", fontWeight: "medium" }}
                     onClick={handleCloseUserMenu}
@@ -251,7 +255,7 @@ function ResponsiveAppBar() {
                     {t("profile")}
                   </Link>
                   <Link
-                    href={`/account:1`}
+                    href={`/account/${id}`}
                     replace={false}
                     style={{ fontSize: "16px", fontWeight: "medium" }}
                     onClick={handleCloseUserMenu}
@@ -266,16 +270,27 @@ function ResponsiveAppBar() {
                   >
                     {t("dashboard")}
                   </Link>
-                  <Button
-                    style={{ fontSize: "16px", fontWeight: "medium" }}
+                  <button
+                    onClick={() => {dispatch(logout()), handleCloseUserMenu()}}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "medium",
+                      textDecoration: "none",
+                      cursor:"pointer"
+                    }}
                   >
                     {t("logout")}
-                  </Button>{" "}
+                  </button>{" "}
                 </>
               ) : (
-                <Button style={{ fontSize: "16px", fontWeight: "medium" }}>
+                <Link
+                  href={"/login"}
+                  replace={false}
+                  onClick={handleCloseUserMenu}
+                  style={{ fontSize: "16px", fontWeight: "medium" }}
+                >
                   {t("login")}
-                </Button>
+                </Link>
               )}
             </div>
           </Menu>

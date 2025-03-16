@@ -6,14 +6,17 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getSpecialHouses } from "@/store/house/house.action";
 import HotOfferCards from "@/components/hotOffer";
+import { getUserById } from "@/store/user/user.action";
 
 const HomePage = () => {
   const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const special = useAppSelector((state) => state.houses.special);
+
   useEffect(() => {
     dispatch(getSpecialHouses());
+
     setMounted(true);
   }, [dispatch]);
 

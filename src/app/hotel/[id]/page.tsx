@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getHousesById } from "@/store/house/house.action";
 import Image from "next/image";
 import { CircularProgress } from "@mui/joy";
+import { getUserById } from "@/store/user/user.action";
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,8 @@ const Page = () => {
   const lang = i18n.language;
 
   const houseArray = useAppSelector((state) => state.houses.house);
+  const user = useAppSelector((state) => state.users.user);
+
   const house = houseArray?.[0];
 
   useEffect(() => {
@@ -30,7 +33,19 @@ const Page = () => {
     }
   }, [dispatch, id]);
 
-  if (!house) {
+  useEffect(() => {
+    if (house?.owner) {
+      dispatch(getUserById(house.owner));
+    }
+  }, [dispatch, house?.owner]);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user.name.kg);
+    }
+  }, [user]);
+
+  if (!house && !user) {
     return (
       <div
         style={{
@@ -81,7 +96,7 @@ const Page = () => {
         <div className="flex items-center gap-2 text-lg">
           <AccountCircleOutlinedIcon />
           <span className="font-semibold capitalize">{t("owner")}:</span>{" "}
-          {house.owner.name?.[lang as keyof typeof house.owner.name]}
+          {user?.name?.[lang as keyof typeof user.name] || user?.name?.en}
         </div>
       </div>
 
@@ -223,15 +238,15 @@ const Page = () => {
           </h2>
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("name")}:</span>{" "}
-            {house.owner.name[lang as keyof typeof house.owner.name]}
-          </p>
+            {user?.name?.[lang as keyof typeof user.name] || user?.name?.en}
+            </p>
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("phone")}:</span>{" "}
-            {house.owner.phone}
+            {user && user.phone}
           </p>
           <p className="text-lg break-words">
             <span className="font-semibold capitalize">{t("email")}:</span>{" "}
-            {house.owner.email}
+            {user && user.email}
           </p>
         </div>
       </section>

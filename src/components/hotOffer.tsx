@@ -17,17 +17,50 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { House } from "@/store/house/house.slice";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { User } from "@/store/user/user.slice";
+import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
+import { addFavorite, getUserById } from "@/store/user/user.action";
+import { useEffect, useState } from "react";
 
 const arr = [1, 2, 3];
 
-const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
+const HotOfferCards: React.FC<{
+  special: House[];
+}> = ({ special }) => {
   const { t, i18n } = useTranslation();
+  const { user } = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
   const currentLanguage = i18n.language;
+  const id = localStorage.getItem("id");
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getUserById(id));
+    }
+  }, [dispatch]);
+
+  const handleFavoriteClick = (houseId: number) => {
+    if (user?.favorites) {
+      const updatedFavorites = user?.favorites.includes(houseId)
+        ? user?.favorites.filter((id) => id !== houseId)
+        : [...user?.favorites, Number(houseId)];
+
+      dispatch(
+        addFavorite({ id: user?.id, data: { favorites: updatedFavorites } })
+      );
+    }
+  };
+
   return (
     <div className="flex justify-center lg:justify-between gap-2.5 w-full lg:flex-nowrap flex-wrap mt-3.5">
       {special.length ? (
         special.map((house) => (
-          <Card sx={{ maxWidth: 350, width: "100%", p: "10px",minWidth:320 }} key={house.id}>
+          <Card
+            sx={{ maxWidth: 350, width: "100%", p: "10px", minWidth: 320 }}
+            key={house.id}
+          >
             <div style={{ position: "relative" }}>
               <AspectRatio minHeight="120px" maxHeight="200px">
                 <Image
@@ -35,7 +68,7 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
                   height={260}
                   src={house.images[0]}
                   loading="lazy"
-                  alt={house.name?.[currentLanguage as keyof typeof house.name]}
+                  alt={`${house.name?.[currentLanguage as keyof typeof house.name]} ${house.id}`}
                 />
               </AspectRatio>
               <Typography level="title-lg">
@@ -45,6 +78,8 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
                 aria-label="bookmark"
                 variant="plain"
                 size="sm"
+                onClick={() => handleFavoriteClick(Number(house.id))}
+                className={`${user?.favorites ? "" : "pointer-events-none"}`}
                 sx={{
                   position: "absolute",
                   top: "0.9rem",
@@ -54,7 +89,11 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
                   opacity: "0.7",
                 }}
               >
-                <Image src={save} alt="save" />
+                {user && user?.favorites?.includes(Number(house.id)) ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
               </IconButton>
               <IconButton
                 aria-label="ratings"
@@ -296,6 +335,6 @@ const HotOfferCards: React.FC<{ special: House[] }> = ({ special }) => {
       )}
     </div>
   );
-}
+};
 
 export default HotOfferCards;
