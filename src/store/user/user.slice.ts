@@ -30,7 +30,7 @@ export const userSlice = createSlice({
     name: "users",
     initialState: INIT_STATE,
     reducers: {
-        logout: user => { localStorage.removeItem("id"), user.user = null }
+        logout: (user) => { localStorage.removeItem("id"); user.user = null }
     },
     extraReducers: (builder) => {
         builder.addCase(getUserById.fulfilled, (state, { payload }) => {

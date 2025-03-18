@@ -40,13 +40,13 @@ interface Policies {
 }
 
 
-interface Owner {
-    id: number;
-    type: string;
-    name: LocalizedText;
-    phone: string;
-    email: string;
-}
+// interface Owner {
+//     id: number;
+//     type: string;
+//     name: LocalizedText;
+//     phone: string;
+//     email: string;
+// }
 
 export interface House {
     id: number;

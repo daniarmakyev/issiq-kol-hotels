@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";

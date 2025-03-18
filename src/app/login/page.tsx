@@ -1,7 +1,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { login } from "@/store/user/user.action";
-import { User, UserRespons } from "@/store/user/user.slice";
+import { User } from "@/store/user/user.slice";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 
@@ -18,7 +18,7 @@ const Page = () => {
     error: null,
   });
 
-  type Payload = FormData;
+
 
   function authFn(prevState: State, formData: FormData): State {
     const email = formData.get("email") as string;
@@ -50,7 +50,7 @@ const Page = () => {
     if (id) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
   return (
     <div className="container mt-[10%]">
       <div className="border-zinc-300 border-1 max-w-96 mx-auto rounded-lg p-5">

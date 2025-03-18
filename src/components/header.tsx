@@ -18,7 +18,6 @@ import { useAppDispatch } from "@/helpers/hooks";
 import { logout } from "@/store/user/user.slice";
 
 const pages = ["hotels", "aboutus", "contacts"];
-const settings = ["", ""];
 const langs = ["en", "ru", "kg", "kz"];
 function ResponsiveAppBar() {
   const { t } = useTranslation();
@@ -32,9 +31,6 @@ function ResponsiveAppBar() {
     window.location.reload();
   }
   const dispatch = useAppDispatch();
-  React.useEffect(() => {
-    const id = localStorage.getItem("id");
-  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -271,12 +267,14 @@ function ResponsiveAppBar() {
                     {t("dashboard")}
                   </Link>
                   <button
-                    onClick={() => {dispatch(logout()), handleCloseUserMenu()}}
+                    onClick={() => {
+                      dispatch(logout()); handleCloseUserMenu();
+                    }}
                     style={{
                       fontSize: "16px",
                       fontWeight: "medium",
                       textDecoration: "none",
-                      cursor:"pointer"
+                      cursor: "pointer",
                     }}
                   >
                     {t("logout")}

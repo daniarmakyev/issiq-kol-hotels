@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getSpecialHouses } from "@/store/house/house.action";
 import HotOfferCards from "@/components/hotOffer";
-import { getUserById } from "@/store/user/user.action";
 
 const HomePage = () => {
   const { t } = useTranslation();

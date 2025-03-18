@@ -16,7 +16,7 @@ export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, ite
 });
 export const getHousesById = createAsyncThunk(
     "houses/getHousesById",
-    async (id: number | string) => {
+    async (id: number | string | number[]) => {
         const { data } = await axios.get(`http://localhost:3001/houses?id=${id}`);
         return data;
     }
