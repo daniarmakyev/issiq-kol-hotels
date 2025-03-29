@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useTranslation } from "react-i18next";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -10,6 +10,7 @@ import CardComponent from "@/components/card";
 import CardSekelet from "@/components/cardSekelet";
 import { Button, Select, Option } from "@mui/joy";
 import { getUserById } from "@/store/user/user.action";
+import { CircularProgress } from "@mui/material";
 const arr = [1, 2, 3, 4, 5, 6];
 export interface IPag {
   first: number;
@@ -60,7 +61,18 @@ const Page = () => {
   }, [dispatch, id]);
 
   if (!mounted) {
-    return null;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   const handlePageChange = (newPage: number) => {

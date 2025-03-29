@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFavorite, getUserById, login } from "./user.action";
+import { addFavorite, getUserById, login, updateUser } from "./user.action";
 
 interface LocalizedText {
     en: string;
@@ -8,16 +8,20 @@ interface LocalizedText {
     kz: string;
 }
 export interface User {
-    id: number;
-    type: string;
-    name: LocalizedText;
-    phone: string;
-    email: string;
-    favorites: number[],
-    hotels: number[],
-    password: string
+    id?: string | number;  // В JSON это строка, в интерфейсе было число
+    type?: string;
+    name?: LocalizedText;
+    phone?: string;
+    email?: string;
+    password?: string;
+    payment?: number;
+    rented?: number[];
+    rented_before?: number[];
+    favorites?: number[];
+    avaible_hotels?: number[];  
+    disable_hotels?: number[];   
+    hotels?: number[];     
 }
-
 export interface UserRespons {
     user: User | null
 }
@@ -38,6 +42,8 @@ export const userSlice = createSlice({
         }).addCase(login.fulfilled, (state, { payload }) => {
             state.user = payload
         }).addCase(addFavorite.fulfilled, (state, { payload }) => {
+            state.user = payload
+        }).addCase(updateUser.fulfilled, (state, { payload }) => {
             state.user = payload
         })
     },

@@ -1,6 +1,6 @@
 "use client"
 import { createSlice } from "@reduxjs/toolkit";
-import { getHouses, getHousesById, getSpecialHouses } from "./house.action";
+import { getHouses, getHousesById, getSpecialHouses, getUserRentedHouses } from "./house.action";
 import { IPag } from "@/app/hotels/page";
 
 interface LocalizedText {
@@ -36,7 +36,7 @@ interface Availability {
 
 interface Policies {
     pets_allowed: boolean;
-    cancellation: LocalizedText; 
+    cancellation: LocalizedText;
 }
 
 
@@ -72,19 +72,29 @@ export interface House {
     owner: number;
     services_count: number;
     amenities_count: number;
-    rating:number
+    rating: number
 }
 
 export interface HousesResponse {
     houses: IPag | null;
-    special:House[];
-    house: House[]
+    special: House[];
+    house: House[],
+
+    userRented: {
+        rentedBef: House[],
+        rented: House[],
+    }
+
 }
 
 const INIT_STATE: HousesResponse = {
     houses: null,
-    special:[],
-    house:[]
+    special: [],
+    house: [],
+    userRented: {
+        rented: [],
+        rentedBef: []
+    }
 };
 
 export const houseSlice = createSlice({
@@ -92,12 +102,15 @@ export const houseSlice = createSlice({
     initialState: INIT_STATE,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getHouses.fulfilled, (state, {payload} ) => {
-            state.houses = payload;      
-        }).addCase(getSpecialHouses.fulfilled, (state, {payload} ) => {
-            state.special = payload;      
-        }).addCase(getHousesById.fulfilled, (state, {payload} ) => {
-            state.house = payload;      
+        builder.addCase(getHouses.fulfilled, (state, { payload }) => {
+            state.houses = payload;
+        }).addCase(getSpecialHouses.fulfilled, (state, { payload }) => {
+            state.special = payload;
+        }).addCase(getHousesById.fulfilled, (state, { payload }) => {
+            state.house = payload;
+        }).addCase(getUserRentedHouses.fulfilled, (state, { payload }) => {
+            state.userRented.rented = payload.rented;
+            state.userRented.rentedBef = payload.rentedBef;
         })
     },
 });

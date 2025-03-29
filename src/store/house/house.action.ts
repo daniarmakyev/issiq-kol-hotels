@@ -7,8 +7,8 @@ import { House } from './house.slice';
 export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, item, low }: { page: number | string; item: string | null; low: string | null }) => {
     const { data } = await axios.get(`http://localhost:3001/houses?_page=${page}&_per_page=9&_sort=${item ?? "rating"}&_order=${low || "desc"}`);
     if (low == "desc") {
-         data.data.reverse()
-         return data 
+        data.data.reverse()
+        return data
     } else {
         return data;
     }
@@ -37,3 +37,29 @@ export const getSpecialHouses = createAsyncThunk("houses/getSpecialHouses", asyn
 
     return sortedHouses.slice(0, 3);
 });
+
+
+export const getUserRentedHouses = createAsyncThunk(
+    "house/getUserRentedHouses",
+    async (rentedIds: { rented: number[], rentedBef: number[] }) => {
+
+        const rentedRequests = rentedIds.rented.map(id => 
+            axios.get(`http://localhost:3001/houses/${id}`)
+        );
+
+        const rentedBefRequests = rentedIds.rentedBef.map(id => 
+            axios.get(`http://localhost:3001/houses/${id}`)
+        );
+
+   
+        const [rentedResponses, rentedBefResponses] = await Promise.all([
+            Promise.all(rentedRequests),
+            Promise.all(rentedBefRequests)
+        ]);
+
+        return {
+            rented: rentedResponses.map(response => response.data),
+            rentedBef: rentedBefResponses.map(response => response.data)
+        };
+    }
+);

@@ -40,32 +40,18 @@ const Page = () => {
   }, [dispatch, house?.owner]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.name) {
       console.log(user.name.kg);
     }
   }, [user]);
 
-  if (!house && !user) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </div>
-    );
-  }
-
-  return (
+  return user && house ? (
     <div className="max-w-5xl mx-auto p-6 bg-gray-50 text-gray-800">
       <div className="mb-8 border-b pb-4 flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <h1 className="text-3xl md:text-4xl font-bold capitalize">
             {house.name?.[lang as keyof typeof house.name]}
+          <button></button>
           </h1>
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
@@ -239,7 +225,7 @@ const Page = () => {
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("name")}:</span>{" "}
             {user?.name?.[lang as keyof typeof user.name] || user?.name?.en}
-            </p>
+          </p>
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("phone")}:</span>{" "}
             {user && user.phone}
@@ -250,6 +236,17 @@ const Page = () => {
           </p>
         </div>
       </section>
+    </div>
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <CircularProgress />
     </div>
   );
 };

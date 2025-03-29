@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getSpecialHouses } from "@/store/house/house.action";
 import HotOfferCards from "@/components/hotOffer";
+import { CircularProgress } from "@mui/material";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -20,7 +21,18 @@ const HomePage = () => {
   }, [dispatch]);
 
   if (!mounted) {
-    return null;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (

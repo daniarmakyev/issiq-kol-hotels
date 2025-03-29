@@ -1,23 +1,70 @@
 {
   "users": [
     {
-      "id": 1,
-      "type": "individual",
+      "id": "5050",
       "name": {
-        "en": "Oleg Smirnov",
-        "ru": "Олег Смирнов",
-        "kz": "Олег Смирнов"
+        "en": "Daniar Makye",
+        "ru": "Daniar Makyev",
+        "kz": "Daniar Makyev",
+        "kg": "Daniar Makyev"
       },
-      "phone": "+996 770 444 222",
+      "phone": "0550650",
       "email": "daniarmakyev10@gmail.com",
+      "password": "danigame002",
+      "payment": 2,
+      "type": "owner",
       "favorites": [],
-      "hotels": [1,2],
-      "password": "danigame002"
+      "rented": [
+        1,
+        2,
+        3
+      ],
+      "rented_before": [
+        2
+      ]
+    },
+    {
+      "id": "77e0",
+      "name": {
+        "en": "Daniar Makyev",
+        "ru": "Daniar Makyev",
+        "kz": "Daniar Makyev",
+        "kg": "Daniar Makyev"
+      },
+      "phone": "0550650222",
+      "email": "daniarmakyev11@gmail.com",
+      "password": "danigame002",
+      "payment": 0,
+      "type": "owner",
+      "favorites": [],
+      "avaible_hotels": [
+        2
+      ],
+      "disable_hotels": [
+        1
+      ]
+    },
+    {
+      "id": "7ce6",
+      "name": {
+        "en": "Daniar Makyev",
+        "ru": "Daniar Makyev",
+        "kz": "Daniar Makyev",
+        "kg": "Daniar Makyev"
+      },
+      "phone": "0550650222",
+      "email": "daniarmakyev100@gmail.com",
+      "password": "danigame002",
+      "payment": 0,
+      "type": "owner",
+      "favorites": [],
+      "avaible_hotels": [],
+      "disable_hotels": []
     }
   ],
   "houses": [
     {
-      "id": 1,
+      "id": "1",
       "name": {
         "en": "Cozy house by the lake",
         "ru": "Уютный дом у озера",
@@ -34,7 +81,7 @@
         "latitude": 42.45,
         "longitude": 76.9833
       },
-      "price": 8000,
+      "price": 800000,
       "currency": "KGS",
       "limit": 6,
       "beds": 3,
@@ -44,16 +91,40 @@
       "category": "guesthouse",
       "type": "house",
       "amenities": {
-        "en": ["WiFi", "Barbecue", "Parking"],
-        "ru": ["WiFi", "Мангал", "Парковка"],
-        "kg": ["WiFi", "Мангал", "Тойду"],
-        "kz": ["WiFi", "Барбекю", "Тұрақ"]
+        "en": [
+          "WiFi",
+          "Barbecue",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Мангал",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Мангал",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Барбекю",
+          "Тұрақ"
+        ]
       },
       "services": {
-        "en": ["Boat rental"],
-        "ru": ["Аренда лодки"],
-        "kg": ["Кеме ижарасы"],
-        "kz": ["Кеме жалға беру"]
+        "en": [
+          "Boat rental"
+        ],
+        "ru": [
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Кеме жалға беру"
+        ]
       },
       "description": {
         "en": "Spacious house with a view of the lake, next to the beach.",
@@ -85,13 +156,13 @@
           "kz": "Кіру алдында 24 сағатқа дейін тегін болдырмау"
         }
       },
-      "owner": 1,
+      "owner": "77e0",
       "services_count": 1,
       "amenities_count": 3,
       "rating": 4.5
     },
     {
-      "id": 2,
+      "id": "2",
       "name": {
         "en": "Cozy house by the lake",
         "ru": "Уютный дом у озера",
@@ -108,7 +179,7 @@
         "latitude": 42.45,
         "longitude": 76.9833
       },
-      "price": 8000,
+      "price": 3,
       "currency": "KGS",
       "limit": 6,
       "beds": 3,
@@ -118,16 +189,40 @@
       "category": "guesthouse",
       "type": "house",
       "amenities": {
-        "en": ["WiFi", "Barbecue", "Parking"],
-        "ru": ["WiFi", "Мангал", "Парковка"],
-        "kg": ["WiFi", "Мангал", "Тойду"],
-        "kz": ["WiFi", "Барбекю", "Тұрақ"]
+        "en": [
+          "WiFi",
+          "Barbecue",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Мангал",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Мангал",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Барбекю",
+          "Тұрақ"
+        ]
       },
       "services": {
-        "en": ["Boat rental"],
-        "ru": ["Аренда лодки"],
-        "kg": ["Кеме ижарасы"],
-        "kz": ["Кеме жалға беру"]
+        "en": [
+          "Boat rental"
+        ],
+        "ru": [
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Кеме жалға беру"
+        ]
       },
       "description": {
         "en": "Spacious house with a view of the lake, next to the beach.",
@@ -159,7 +254,105 @@
           "kz": "Кіру алдында 24 сағатқа дейін тегін болдырмау"
         }
       },
-      "owner": 1,
+      "owner": "77e0",
+      "services_count": 1,
+      "amenities_count": 3,
+      "rating": 4.5
+    },
+    {
+      "id": "3",
+      "name": {
+        "en": "Cozy house by the lake",
+        "ru": "Уютный дом у озера",
+        "kg": "Уюлдуу үй көл жээгинде",
+        "kz": "Көл жағасындағы ыңғайлы үй"
+      },
+      "location": {
+        "en": "Issyk-Kul, place in Issyk-Kul",
+        "ru": "Ысык Куль, место в Ысык Куль",
+        "kg": "Ысык Куль, Ысык Кульдөгү жер",
+        "kz": "Ысык Куль, Ысык Кульдегі жер"
+      },
+      "geo": {
+        "latitude": 42.45,
+        "longitude": 76.9833
+      },
+      "price": 3,
+      "currency": "KGS",
+      "limit": 6,
+      "beds": 3,
+      "rooms": 4,
+      "bathrooms": 2,
+      "square": 150,
+      "category": "guesthouse",
+      "type": "house",
+      "amenities": {
+        "en": [
+          "WiFi",
+          "Barbecue",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Мангал",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Мангал",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Барбекю",
+          "Тұрақ"
+        ]
+      },
+      "services": {
+        "en": [
+          "Boat rental"
+        ],
+        "ru": [
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Кеме жалға беру"
+        ]
+      },
+      "description": {
+        "en": "Spacious house with a view of the lake, next to the beach.",
+        "ru": "Просторный дом с видом на озеро, рядом с пляжем.",
+        "kg": "Көлгө караган кең үй, пляждын жанында.",
+        "kz": "Көлге қарайтын кең үй, жағажайға жақын."
+      },
+      "contact": {
+        "phone": "+996 770 123 456",
+        "email": "owner@example.com"
+      },
+      "images": [
+        "https://kaprizissykkul.kg/upload/iblock/685/685804ddcbdb42531b6f913b5384831f.jpg",
+        "https://kaprizissykkul.kg/upload/iblock/6b1/uvjaynoyq4b501pn25uebxyc105gpb7y.webp",
+        "https://kaprizissykkul.kg/upload/iblock/7ae/831liaghylt0ghbnttr7av3np2l3cm14.jpg"
+      ],
+      "availability": {
+        "check_in": "13:00",
+        "check_out": "21:00",
+        "total_count": 1,
+        "available_count": 1
+      },
+      "policies": {
+        "pets_allowed": true,
+        "cancellation": {
+          "en": "Free cancellation up to 24 hours before check-in",
+          "ru": "Бесплатная отмена за 24 часа до заезда",
+          "kg": "24 саатка чейин бекер кайтартуу",
+          "kz": "Кіру алдында 24 сағатқа дейін тегін болдырмау"
+        }
+      },
+      "owner": "77e0",
       "services_count": 1,
       "amenities_count": 3,
       "rating": 4.5

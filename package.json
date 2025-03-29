@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.6.0",
     "@toolpad/studio-runtime": "^0.13.0",
     "axios": "^1.8.1",
+    "bcryptjs": "^3.0.2",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",
     "js-cookie": "^3.0.5",
@@ -29,6 +30,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
+    "swiper": "^11.2.6",
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "devDependencies": {

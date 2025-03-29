@@ -36,7 +36,7 @@ const CardComponent = ({
   const dispatch = useAppDispatch();
 
   const handleFavoriteClick = (houseId: number) => {
-    if (user?.favorites) {
+    if (user?.favorites && user.id) {
       const updatedFavorites = user?.favorites.includes(houseId)
         ? user?.favorites.filter((id) => id !== houseId)
         : [...user?.favorites, Number(houseId)];
@@ -125,7 +125,10 @@ const CardComponent = ({
           aria-label="Explore offer"
           sx={{ ml: "auto", alignSelf: "center" }}
         >
-          <Link href={`/hotel/${house.id}`}> {t("learn_more")}</Link>
+          <Link href={`/hotel/${house.id}`} replace={false}>
+            {" "}
+            {t("learn_more")}
+          </Link>
         </Button>
       </CardContent>
       <CardContent
