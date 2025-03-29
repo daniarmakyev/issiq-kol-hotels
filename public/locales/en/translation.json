@@ -63,6 +63,6 @@
   "profile_updated": "Profile updated successfully",
   "update_failed": "Failed to update profile",
   "required_field": "This field is required",
-  "edit_profile": "Edit Profile"
-  
+  "edit_profile": "Edit Profile",
+  "your_favorites": "Your favorites"
 }

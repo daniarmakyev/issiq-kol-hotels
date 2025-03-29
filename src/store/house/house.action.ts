@@ -22,6 +22,21 @@ export const getHousesById = createAsyncThunk(
     }
 );
 
+export const getFav = createAsyncThunk(
+    "houses/getFav",
+    async (ids: (string | number)[], { rejectWithValue }) => {
+      try {
+        const requests = ids.map(id => 
+          axios.get<House>(`http://localhost:3001/houses/${id}`)
+        );
+        const responses = await Promise.all(requests);
+        return responses.map(response => response.data);
+      } catch (error) {
+        return rejectWithValue("Failed to fetch houses");
+      }
+    }
+  );
+
 export const getSpecialHouses = createAsyncThunk("houses/getSpecialHouses", async () => {
     const { data } = await axios.get("http://localhost:3001/houses");
 

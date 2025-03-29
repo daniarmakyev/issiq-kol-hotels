@@ -118,7 +118,7 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white  min-h-[96vh]">
       <div className="container pt-5">
         <div className=" flex justify-between text-sm">
           <Button

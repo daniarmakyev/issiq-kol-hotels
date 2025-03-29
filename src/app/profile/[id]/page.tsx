@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getUserById, updateUser } from "@/store/user/user.action";
 import ProfileInput from "@/components/profileInput";
 import EditIcon from "@mui/icons-material/Edit";
-import { User } from "@/store/user/user.slice";
 import CardComponent from "@/components/card";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,7 +12,6 @@ import { Navigation } from "swiper/modules";
 import i18n from "@/i18n";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import { getUserRentedHouses } from "@/store/house/house.action";
-import axios from "axios";
 
 interface ProfileFormData {
   name: {
@@ -156,7 +154,11 @@ const ProfilePage: FC = () => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    if(user && user.type !== "user"){
+      setEdit(true)
+    }
+  }, []);
   const handleCancelEdit = () => {
     setFormData(initialFormData);
     setEdit(false);
@@ -166,14 +168,21 @@ const ProfilePage: FC = () => {
     <div className="relative ">
       <div className="bg-green-white h-32 w-full"></div>
       <div className="bg-white max-w-[1320px] w-[90%] min-h-[80vh]  shadow-[0px_0px_20px_-3px_#636363] flex flex-col sm:flex-row flex-nowrap rounded-3xl absolute  left-1/2 transform -translate-x-1/2 top-1/3 p-4 gap-3">
-        <div className="">
-          <button className=" cursor-pointer" onClick={() => setEdit(!isEdit)}>
-            <EditIcon
-              className="text-blue"
-              sx={{ width: "30px", height: "30px" }}
-            />
-          </button>
-        </div>
+        {user && user.type !== "user" ? (
+          ""
+        ) : (
+          <div className="">
+            <button
+              className=" cursor-pointer"
+              onClick={() => setEdit(!isEdit)}
+            >
+              <EditIcon
+                className="text-blue"
+                sx={{ width: "30px", height: "30px" }}
+              />
+            </button>
+          </div>
+        )}
         {isEdit ? (
           <form
             onSubmit={handleSubmit}
@@ -272,118 +281,120 @@ const ProfilePage: FC = () => {
         ) : (
           ""
         )}
-        {isEdit
-          ? ""
-          : user && (
-              <div className="w-full flex flex-col justify-center items-start">
-                <div className="flex-row flex gap-2 items-center mb-3 justify-center w-full">
-                  <h3>
-                    {user.name![currentLanguage as keyof typeof user.name]}
-                  </h3>
-                </div>
-
-                {userRented.rentedBef.length > 0 && (
-                  <div className="w-[]">
-                    <ul className="flex flex-row flex-wrap gap-4 overflow-y-scroll">
-                      {(userRented.rented.length > 0 ||
-                        userRented.rentedBef.length > 0) && (
-                        <div className="flex flex-col gap-6">
-                          {userRented.rented.length > 0 && (
-                            <div className="max-w-[80vw]">
-                              <h4 className="text-xl font-bold mb-4 up capitalize">
-                                {t("current_rented")}
-                              </h4>
-                              <Swiper
-                                slidesPerView="auto"
-                                spaceBetween={14}
-                                navigation={{
-                                  nextEl: ".swiper-button-next",
-                                  prevEl: ".swiper-button-prev ",
-                                }}
-                                modules={[Navigation]}
-                                className="mt-[26px] w-auto"
-                              >
-                                {userRented.rented.map((house) => (
-                                  <SwiperSlide
-                                    key={house.id}
-                                    className="!w-auto"
-                                  >
-                                    <CardComponent
-                                      house={house}
-                                      currentLanguage={currentLanguage}
-                                      t={t}
-                                      user={user}
-                                    />
-                                  </SwiperSlide>
-                                ))}
-
-                                <div className="swiper-button-next max-w-10 !w-fit max-h-10  bg-white rounded-full custom-next-button before:content-none after:!content-none  right-1">
-                                  <ArrowCircleRightOutlinedIcon
-                                    color="primary"
-                                    className="!w-full"
-                                  />
-                                </div>
-                                <div className="swiper-button-prev  max-w-10 !w-fit max-h-10  bg-white rounded-full custom-prev-button before:content-none after:!content-none  left-1">
-                                  <ArrowCircleRightOutlinedIcon
-                                    color="primary"
-                                    className="rotate-180 !w-12"
-                                  />
-                                </div>
-                              </Swiper>
-                            </div>
-                          )}
-
-                          {userRented.rentedBef.length > 0 && (
-                            <div>
-                              <h4 className="text-xl font-bold mb-4 capitalize">
-                                {t("previous_rented")}
-                              </h4>
-                              <Swiper
-                                slidesPerView="auto"
-                                spaceBetween={14}
-                                navigation={{
-                                  nextEl: ".swiper-button-nextt",
-                                  prevEl: ".swiper-button-previous",
-                                }}
-                                modules={[Navigation]}
-                                className="mt-[26px]"
-                              >
-                                {userRented.rentedBef.map((house) => (
-                                  <SwiperSlide
-                                    key={house.id}
-                                    className="!w-auto"
-                                  >
-                                    <CardComponent
-                                      house={house}
-                                      currentLanguage={currentLanguage}
-                                      t={t}
-                                      user={user}
-                                    />
-                                  </SwiperSlide>
-                                ))}
-
-                                <div className="swiper-button-nextt  max-w-15 !w-fit max-h-12  bg-white rounded-full custom-next-button before:content-none after:!content-none  right-1">
-                                  <ArrowCircleRightOutlinedIcon
-                                    className="!w-12"
-                                    color="primary"
-                                  />
-                                </div>
-                                <div className="swiper-button-previous  max-w-15 !w-fit max-h-12  bg-white rounded-full custom-prev-button before:content-none after:!content-none  left-1">
-                                  <ArrowCircleRightOutlinedIcon
-                                    className="rotate-180 !w-12"
-                                    color="primary"
-                                  />
-                                </div>
-                              </Swiper>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </ul>
+        {user && user.type === "user"
+          ? isEdit
+            ? ""
+            : user && (
+                <div className="w-full flex flex-col justify-center items-start">
+                  <div className="flex-row flex gap-2 items-center mb-3 justify-center w-full">
+                    <h3>
+                      {user.name![currentLanguage as keyof typeof user.name]}
+                    </h3>
                   </div>
-                )}
-              </div>
-            )}
+
+                  {userRented.rentedBef.length > 0 && (
+                    <div className="w-[]">
+                      <ul className="flex flex-row flex-wrap gap-4 overflow-y-scroll">
+                        {(userRented.rented.length > 0 ||
+                          userRented.rentedBef.length > 0) && (
+                          <div className="flex flex-col gap-6">
+                            {userRented.rented.length > 0 && (
+                              <div className="max-w-[80vw]">
+                                <h4 className="text-xl font-bold mb-4 up capitalize">
+                                  {t("current_rented")}
+                                </h4>
+                                <Swiper
+                                  slidesPerView="auto"
+                                  spaceBetween={14}
+                                  navigation={{
+                                    nextEl: ".swiper-button-next",
+                                    prevEl: ".swiper-button-prev ",
+                                  }}
+                                  modules={[Navigation]}
+                                  className="mt-[26px] w-auto"
+                                >
+                                  {userRented.rented.map((house) => (
+                                    <SwiperSlide
+                                      key={house.id}
+                                      className="!w-auto"
+                                    >
+                                      <CardComponent
+                                        house={house}
+                                        currentLanguage={currentLanguage}
+                                        t={t}
+                                        user={user}
+                                      />
+                                    </SwiperSlide>
+                                  ))}
+
+                                  <div className="swiper-button-next max-w-10 !w-fit max-h-10  bg-white rounded-full custom-next-button before:content-none after:!content-none  right-1">
+                                    <ArrowCircleRightOutlinedIcon
+                                      color="primary"
+                                      className="!w-full"
+                                    />
+                                  </div>
+                                  <div className="swiper-button-prev  max-w-10 !w-fit max-h-10  bg-white rounded-full custom-prev-button before:content-none after:!content-none  left-1">
+                                    <ArrowCircleRightOutlinedIcon
+                                      color="primary"
+                                      className="rotate-180 !w-12"
+                                    />
+                                  </div>
+                                </Swiper>
+                              </div>
+                            )}
+
+                            {userRented.rentedBef.length > 0 && (
+                              <div>
+                                <h4 className="text-xl font-bold mb-4 capitalize">
+                                  {t("previous_rented")}
+                                </h4>
+                                <Swiper
+                                  slidesPerView="auto"
+                                  spaceBetween={14}
+                                  navigation={{
+                                    nextEl: ".swiper-button-nextt",
+                                    prevEl: ".swiper-button-previous",
+                                  }}
+                                  modules={[Navigation]}
+                                  className="mt-[26px]"
+                                >
+                                  {userRented.rentedBef.map((house) => (
+                                    <SwiperSlide
+                                      key={house.id}
+                                      className="!w-auto"
+                                    >
+                                      <CardComponent
+                                        house={house}
+                                        currentLanguage={currentLanguage}
+                                        t={t}
+                                        user={user}
+                                      />
+                                    </SwiperSlide>
+                                  ))}
+
+                                  <div className="swiper-button-nextt  max-w-15 !w-fit max-h-12  bg-white rounded-full custom-next-button before:content-none after:!content-none  right-1">
+                                    <ArrowCircleRightOutlinedIcon
+                                      className="!w-12"
+                                      color="primary"
+                                    />
+                                  </div>
+                                  <div className="swiper-button-previous  max-w-15 !w-fit max-h-12  bg-white rounded-full custom-prev-button before:content-none after:!content-none  left-1">
+                                    <ArrowCircleRightOutlinedIcon
+                                      className="rotate-180 !w-12"
+                                      color="primary"
+                                    />
+                                  </div>
+                                </Swiper>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )
+          : ""}
       </div>
     </div>
   );

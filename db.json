@@ -13,7 +13,7 @@
       "password": "danigame002",
       "payment": 2,
       "type": "owner",
-      "favorites": [],
+      "favorites": [1,2,3],
       "rented": [
         1,
         2,

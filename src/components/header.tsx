@@ -14,8 +14,9 @@ import Cookies from "js-cookie";
 
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import { useAppDispatch } from "@/helpers/hooks";
+import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { logout } from "@/store/user/user.slice";
+import { getUserById } from "@/store/user/user.action";
 
 const pages = ["hotels", "aboutus", "contacts"];
 const langs = ["en", "ru", "kg", "kz"];
@@ -24,6 +25,7 @@ function ResponsiveAppBar() {
   const lang = Cookies.get("i18next");
   const [, setLang] = React.useState(lang);
   const id = localStorage.getItem("id");
+  const user = useAppSelector((state) => state.users.user);
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
     Cookies.set("i18next", languageCode);
@@ -31,6 +33,12 @@ function ResponsiveAppBar() {
     window.location.reload();
   }
   const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (id) {
+      getUserById(id);
+    }
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -258,17 +266,22 @@ function ResponsiveAppBar() {
                   >
                     {t("account")}
                   </Link>{" "}
-                  <Link
-                    href={"/dashboard"}
-                    replace={false}
-                    style={{ fontSize: "16px", fontWeight: "medium" }}
-                    onClick={handleCloseUserMenu}
-                  >
-                    {t("dashboard")}
-                  </Link>
+                  {user && user.type === "user" ? (
+                    ""
+                  ) : (
+                    <Link
+                      href={"/dashboard"}
+                      replace={false}
+                      style={{ fontSize: "16px", fontWeight: "medium" }}
+                      onClick={handleCloseUserMenu}
+                    >
+                      {t("dashboard")}
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
-                      dispatch(logout()); handleCloseUserMenu();
+                      dispatch(logout());
+                      handleCloseUserMenu();
                     }}
                     style={{
                       fontSize: "16px",
