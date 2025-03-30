@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -11,20 +11,40 @@ import BedOutlinedIcon from "@mui/icons-material/BedOutlined";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getHousesById } from "@/store/house/house.action";
 import Image from "next/image";
-import { CircularProgress } from "@mui/joy";
-import { getOwnerById } from "@/store/user/user.action";
+import {
+  Button,
+  CircularProgress,
+  Modal,
+  ModalClose,
+  Sheet,
+  Typography,
+} from "@mui/joy";
+import {
+  getOwnerById,
+  getUserById,
+  updateUser,
+} from "@/store/user/user.action";
 
 const Page = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
-
+  const [open, setOpen] = React.useState<boolean>(false);
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
 
   const houseArray = useAppSelector((state) => state.houses.house);
-  const owner  = useAppSelector((state) => state.users.user);
+  const owner = useAppSelector((state) => state.users.owner);
+  const user = useAppSelector((state) => state.users.user);
+  let yourDate = new Date();
+  let y = yourDate.getFullYear();
+  let m = String(yourDate.getMonth() + 1).padStart(2, "0");
+  let d = String(yourDate.getDate()).padStart(2, "0");
+  const today = `${y}-${m}-${d}`;
 
+  const [startDate, setStartDate] = useState<string>(today);
+  const [endDate, setEndDate] = useState<string>("");
+  const [totalPrice, setTotalPrice] = useState<number>(0);
   const house = houseArray?.[0];
 
   useEffect(() => {
@@ -34,25 +54,152 @@ const Page = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    const idUser = localStorage.getItem("id");
     if (house?.owner) {
+      dispatch(getUserById(idUser + ""));
       dispatch(getOwnerById(house.owner));
     }
   }, [dispatch, house?.owner]);
 
-  useEffect(() => {
-    if (owner && owner.name) {
-      console.log(owner.name.kg);
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "start" | "end",
+    price: number
+  ) => {
+    const newDate = e.currentTarget.value;
+
+    if (type === "start") {
+      setStartDate(newDate);
+      setEndDate("");
+      setTotalPrice(0);
+    } else {
+      setEndDate(newDate);
     }
-  }, [owner]);
+
+    if (type === "end" && startDate) {
+      const start = new Date(startDate);
+      const end = new Date(newDate);
+      const diff = Math.ceil(
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      if (diff > 0) {
+        setTotalPrice(diff * price);
+      } else {
+        setTotalPrice(0);
+      }
+    }
+  };
+
+  function rentFunc(houseid: string | number, userId:string|number) {
+    dispatch(
+      updateUser({
+        id: userId,
+        data: { rented: [String(houseid)] },
+      })
+    );
+  }
 
   return owner && house ? (
     <div className="max-w-5xl mx-auto p-6 bg-gray-50 text-gray-800">
       <div className="mb-8 border-b pb-4 flex flex-col gap-4 ">
+        <Modal
+          aria-labelledby="create-house-modal"
+          open={open}
+          onClose={() => setOpen(false)}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Sheet
+            variant="outlined"
+            sx={{
+              width: "90%",
+              maxWidth: 800,
+              borderRadius: "md",
+              p: 3,
+              maxHeight: "90vh",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <ModalClose variant="outlined" />
+            <Typography
+              component="h2"
+              id="create-house-modal"
+              level="h4"
+              textColor="inherit"
+              sx={{ fontWeight: "lg", mb: 2 }}
+            >
+              {user ? (
+                <div>
+                  <h3 className="mx-auto w-fit mb-2">Оплата</h3>
+                  <form className="flex flex-col max-w-fit mx-auto px-4 py-2 items-center justify-center gap-y-1 border-1 border-zinc-600 rounded-lg">
+                    <div className="flex gap-2">
+                      <h5>От</h5>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) =>
+                          handleDateChange(e, "start", house.price)
+                        }
+                        min={today}
+                        required
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <h5>До</h5>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) =>
+                          handleDateChange(e, "end", house.price)
+                        }
+                        min={startDate}
+                        required
+                      />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <h5>Сумма:</h5>
+                      <span>{totalPrice} KGS</span>
+                    </div>
+                    <div className="flex gap-1">
+                      <h4>Ваша карта: </h4>
+                      <span>{user.payment}</span>
+                    </div>
+                    <button className="border-1 border-zinc-600 px-2 py-1 rounded-lg mt-3">
+                      Оплатить
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                "Unexpected error"
+              )}
+            </Typography>
+          </Sheet>
+        </Modal>
         <div className="flex items-center gap-2 justify-between w-full">
           <h1 className="text-3xl md:text-4xl font-bold capitalize">
             {house.name?.[lang as keyof typeof house.name]}
           </h1>
-          <button className="border-1 border-zinc-700 rounded-lg px-2 py-1">Add</button>
+          {house.id && user && user?.type === "user" ? (
+            <Button
+              variant="outlined"
+              color="neutral"
+              onClick={() => {
+                setOpen(true);
+                rentFunc(house.id + "", user.id+'');
+              }}
+            >
+              {t("rent")}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
           <div className="flex items-center flex-wrap gap-2">

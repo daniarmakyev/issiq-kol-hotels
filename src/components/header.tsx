@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { logout } from "@/store/user/user.slice";
-import { getOwnerById } from "@/store/user/user.action";
+import { getUserById } from "@/store/user/user.action";
 
 const pages = ["hotels"];
 const langs = ["en", "ru", "kg", "kz"];
@@ -25,7 +25,7 @@ function ResponsiveAppBar() {
   const lang = Cookies.get("i18next");
   const [, setLang] = React.useState(lang);
   const id = localStorage.getItem("id");
-  const user = useAppSelector((state) => state.users.owner);
+  const user = useAppSelector((state) => state.users.user);
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
     Cookies.set("i18next", languageCode);
@@ -36,9 +36,9 @@ function ResponsiveAppBar() {
 
   React.useEffect(() => {
     if (id) {
-      getOwnerById(id);
+      dispatch(getUserById(id));
     }
-  }, []);
+  }, [dispatch]);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null

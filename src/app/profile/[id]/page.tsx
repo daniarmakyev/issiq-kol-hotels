@@ -285,14 +285,14 @@ const ProfilePage: FC = () => {
           ? isEdit
             ? ""
             : user && (
-                <div className="w-full flex flex-col justify-center items-start">
-                  <div className="flex-row flex gap-2 items-center mb-3 justify-center w-full">
+                <div className="w-full flex flex-col justify-start items-start">
+                  <div className="flex-row flex gap-2 items-start mb-3 justify-center w-full">
                     <h3>
                       {user.name![currentLanguage as keyof typeof user.name]}
                     </h3>
                   </div>
 
-                  {userRented.rentedBef.length > 0 && (
+                  {userRented && (
                     <div className="w-[]">
                       <ul className="flex flex-row flex-wrap gap-4 overflow-y-scroll">
                         {(userRented.rented.length > 0 ||

@@ -64,5 +64,6 @@
   "update_failed": "Failed to update profile",
   "required_field": "This field is required",
   "edit_profile": "Edit Profile",
-  "your_favorites": "Your favorites"
+  "your_favorites": "Your favorites",
+  "rent": "rent"
 }

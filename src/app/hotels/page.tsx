@@ -5,22 +5,13 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getHouses } from "@/store/house/house.action";
 import { useState, useEffect } from "react";
-import { House } from "@/store/house/house.slice";
 import CardComponent from "@/components/card";
 import CardSekelet from "@/components/cardSekelet";
 import { Button, Select, Option } from "@mui/joy";
 import { getUserById } from "@/store/user/user.action";
 import { CircularProgress } from "@mui/material";
 const arr = [1, 2, 3, 4, 5, 6];
-export interface IPag {
-  first: number;
-  prev: boolean | number;
-  next: boolean | number;
-  last: number;
-  pages: number;
-  items: number;
-  data?: House[];
-}
+
 const Page = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;

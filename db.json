@@ -13,8 +13,12 @@
       "password": "123456",
       "payment": 2,
       "type": "user",
-      "favorites": ["1"],
-      "rented": ["1"],
+      "favorites": [
+        "1"
+      ],
+      "rented": [
+        "1"
+      ],
       "rented_before": []
     },
     {
@@ -30,7 +34,9 @@
       "password": "123456",
       "payment": 0,
       "type": "owner",
-      "favorites": ["1"],
+      "favorites": [
+        "1"
+      ],
       "avaible_hotels": [],
       "disable_hotels": []
     }
@@ -64,16 +70,40 @@
       "category": "guesthouse",
       "type": "house",
       "amenities": {
-        "en": ["WiFi", "Barbecue", "Parking"],
-        "ru": ["WiFi", "Мангал", "Парковка"],
-        "kg": ["WiFi", "Мангал", "Тойду"],
-        "kz": ["WiFi", "Барбекю", "Тұрақ"]
+        "en": [
+          "WiFi",
+          "Barbecue",
+          "Parking"
+        ],
+        "ru": [
+          "WiFi",
+          "Мангал",
+          "Парковка"
+        ],
+        "kg": [
+          "WiFi",
+          "Мангал",
+          "Тойду"
+        ],
+        "kz": [
+          "WiFi",
+          "Барбекю",
+          "Тұрақ"
+        ]
       },
       "services": {
-        "en": ["Boat rental"],
-        "ru": ["Аренда лодки"],
-        "kg": ["Кеме ижарасы"],
-        "kz": ["Кеме жалға беру"]
+        "en": [
+          "Boat rental"
+        ],
+        "ru": [
+          "Аренда лодки"
+        ],
+        "kg": [
+          "Кеме ижарасы"
+        ],
+        "kz": [
+          "Кеме жалға беру"
+        ]
       },
       "description": {
         "en": "Spacious house with a view of the lake, next to the beach.",
