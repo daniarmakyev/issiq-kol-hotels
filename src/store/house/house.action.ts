@@ -1,7 +1,7 @@
 "use client"
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { House } from './house.slice';
+import { House } from '@/helpers/types';
 
 
 export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, item, low }: { page: number | string; item: string | null; low: string | null }) => {
@@ -12,8 +12,12 @@ export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, ite
     } else {
         return data;
     }
-
 });
+
+export const createHouse = createAsyncThunk("houses/createHouse", async (house: House) => {
+    await axios.post("http://localhost:3001/houses", house);
+});
+
 export const getHousesById = createAsyncThunk(
     "houses/getHousesById",
     async (id: number | string | number[]) => {
@@ -25,18 +29,25 @@ export const getHousesById = createAsyncThunk(
 export const getFav = createAsyncThunk(
     "houses/getFav",
     async (ids: (string | number)[], { rejectWithValue }) => {
-      try {
-        const requests = ids.map(id => 
-          axios.get<House>(`http://localhost:3001/houses/${id}`)
-        );
-        const responses = await Promise.all(requests);
-        return responses.map(response => response.data);
-      } catch (error) {
-        return rejectWithValue("Failed to fetch houses");
-      }
+        try {
+            const requests = ids.map(id =>
+                axios.get<House>(`http://localhost:3001/houses/${id}`)
+            );
+            const responses = await Promise.all(requests);
+            return responses.map(response => response.data);
+        } catch (error) {
+            return rejectWithValue("Failed to fetch houses");
+        }
     }
-  );
+);
 
+export const getCreated = createAsyncThunk(
+    "houses/getCreated",
+    async (id: string | number) => {
+        const { data } = await axios.get(`http://localhost:3001/houses?owner=${id}`)
+        return data
+    }
+);
 export const getSpecialHouses = createAsyncThunk("houses/getSpecialHouses", async () => {
     const { data } = await axios.get("http://localhost:3001/houses");
 
@@ -56,17 +67,17 @@ export const getSpecialHouses = createAsyncThunk("houses/getSpecialHouses", asyn
 
 export const getUserRentedHouses = createAsyncThunk(
     "house/getUserRentedHouses",
-    async (rentedIds: { rented: number[], rentedBef: number[] }) => {
+    async (rentedIds: { rented: string[], rentedBef: string[] }) => {
 
-        const rentedRequests = rentedIds.rented.map(id => 
+        const rentedRequests = rentedIds.rented.map(id =>
             axios.get(`http://localhost:3001/houses/${id}`)
         );
 
-        const rentedBefRequests = rentedIds.rentedBef.map(id => 
+        const rentedBefRequests = rentedIds.rentedBef.map(id =>
             axios.get(`http://localhost:3001/houses/${id}`)
         );
 
-   
+
         const [rentedResponses, rentedBefResponses] = await Promise.all([
             Promise.all(rentedRequests),
             Promise.all(rentedBefRequests)

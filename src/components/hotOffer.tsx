@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { House } from "@/store/house/house.slice";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getUserById } from "@/store/user/user.action";
 import { useEffect } from "react";
 import CardSekelet from "./cardSekelet";
 import CardComponent from "./card";
+import { House } from "@/helpers/types";
 
 const arr = [1, 2, 3];
 
@@ -23,7 +23,7 @@ const HotOfferCards: React.FC<{
     if (id) {
       dispatch(getUserById(id));
     }
-  }, [dispatch,id]);
+  }, [dispatch, id]);
 
   return (
     <div className="flex justify-center lg:justify-between gap-2.5 w-full lg:flex-nowrap flex-wrap mt-3.5">
@@ -40,7 +40,7 @@ const HotOfferCards: React.FC<{
       ) : (
         <div className="flex justify-center md:justify-between gap-2.5 w-full md:flex-nowrap flex-wrap mt-3.5">
           {arr.map((_, index) => (
-            <CardSekelet key={index}/>
+            <CardSekelet key={index} />
           ))}
         </div>
       )}

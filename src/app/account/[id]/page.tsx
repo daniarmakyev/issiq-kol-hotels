@@ -8,9 +8,8 @@ import CardComponent from "@/components/card";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
-import { getFav, getHousesById } from "@/store/house/house.action";
+import { getFav } from "@/store/house/house.action";
 import { getUserById } from "@/store/user/user.action";
-import { House } from "@/store/house/house.slice";
 
 const Page = () => {
   const dispatch = useAppDispatch();

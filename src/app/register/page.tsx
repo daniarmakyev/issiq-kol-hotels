@@ -1,13 +1,13 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { register } from "@/store/user/user.action";
-import { User } from "@/store/user/user.slice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ToggleOffOutlinedIcon from "@mui/icons-material/ToggleOffOutlined";
 import { CircularProgress } from "@mui/material";
+import { User } from "@/helpers/types";
 const Page = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();

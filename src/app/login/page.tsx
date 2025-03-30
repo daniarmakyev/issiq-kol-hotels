@@ -1,7 +1,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
+import { User } from "@/helpers/types";
 import { login } from "@/store/user/user.action";
-import { User } from "@/store/user/user.slice";
 import { CircularProgress } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,12 +12,19 @@ const Page = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.users);
-
+  const id = localStorage.getItem("id");
   type State = {
     data: User | string | null;
     error: string | string | null;
   };
 
+  const router = useRouter();
+  useEffect(() => {
+    const id = localStorage.getItem("id");
+    if (id) {
+      router.push("/");
+    }
+  }, [user, router]);
   const [state, submitAction] = useActionState(authFn, {
     data: null,
     error: null,
@@ -39,6 +46,7 @@ const Page = () => {
         if (user != null) {
           localStorage.setItem("id", user.id + "");
           return { data: user, error: null };
+          router.push("/");
         } else {
           return { ...prevState, error: t("emailOrPasswordIncorect") };
         }
@@ -54,14 +62,6 @@ const Page = () => {
     }
     return { ...prevState, error: t("error_fill_fields") };
   }
-
-  const router = useRouter();
-  useEffect(() => {
-    const id = localStorage.getItem("id");
-    if (id) {
-      router.push("/");
-    }
-  }, [user, router]);
 
   if (!mounted) {
     return (

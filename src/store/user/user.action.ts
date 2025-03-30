@@ -1,7 +1,6 @@
+import { User } from "@/helpers/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { User } from "./user.slice";
-import bcrypt from "bcryptjs";
 
 export const createUser = createAsyncThunk(
     "users/createUser",
@@ -19,6 +18,13 @@ export const getUserById = createAsyncThunk(
     }
 );
 
+export const getOwnerById = createAsyncThunk(
+    "users/getOwnerById",
+    async (id: number | string) => {
+        const { data } = await axios.get(`http://localhost:3001/users?id=${id}`);
+        return data[0];
+    }
+);
 
 export const updateUser = createAsyncThunk(
     "users/updateUser",
@@ -83,7 +89,7 @@ export const register = createAsyncThunk(
 
 export const addFavorite = createAsyncThunk(
     "users/addFavorite",
-    async ({ id, data }: { id: number | string; data: { favorites: number[] } }) => {
+    async ({ id, data }: { id: number | string; data: { favorites: string[] } }) => {
 
         const { data: updatedUser } = await axios.patch(`http://localhost:3001/users/${id}`, data);
 

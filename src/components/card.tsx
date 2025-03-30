@@ -16,11 +16,10 @@ import Image from "next/image";
 import Link from "next/link";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { House } from "@/store/house/house.slice";
 import i18next from "@/i18n";
-import { User } from "@/store/user/user.slice";
 import { useAppDispatch } from "@/helpers/hooks";
 import { addFavorite } from "@/store/user/user.action";
+import { House, User } from "@/helpers/types";
 
 const CardComponent = ({
   house: house,
@@ -35,11 +34,11 @@ const CardComponent = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const handleFavoriteClick = (houseId: number) => {
+  const handleFavoriteClick = (houseId: string) => {
     if (user?.favorites && user.id) {
       const updatedFavorites = user?.favorites.includes(houseId)
         ? user?.favorites.filter((id) => id !== houseId)
-        : [...user?.favorites, Number(houseId)];
+        : [...user?.favorites, houseId + ""];
 
       dispatch(
         addFavorite({ id: user?.id, data: { favorites: updatedFavorites } })
@@ -68,7 +67,7 @@ const CardComponent = ({
           aria-label="bookmark"
           variant="plain"
           size="sm"
-          onClick={() => handleFavoriteClick(Number(house.id))}
+          onClick={() => handleFavoriteClick(house.id + "")}
           className={`${user?.favorites ? "" : "pointer-events-none"}`}
           sx={{
             position: "absolute",
@@ -79,7 +78,7 @@ const CardComponent = ({
             opacity: "0.7",
           }}
         >
-          {user && user?.favorites?.includes(Number(house.id)) ? (
+          {user && user?.favorites?.includes(house.id + "") ? (
             <FavoriteIcon />
           ) : (
             <FavoriteBorderIcon />

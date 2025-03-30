@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getHousesById } from "@/store/house/house.action";
 import Image from "next/image";
 import { CircularProgress } from "@mui/joy";
-import { getUserById } from "@/store/user/user.action";
+import { getOwnerById } from "@/store/user/user.action";
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -23,36 +23,36 @@ const Page = () => {
   const lang = i18n.language;
 
   const houseArray = useAppSelector((state) => state.houses.house);
-  const user = useAppSelector((state) => state.users.user);
+  const owner  = useAppSelector((state) => state.users.user);
 
   const house = houseArray?.[0];
 
   useEffect(() => {
     if (id) {
-      dispatch(getHousesById(Number(id)));
+      dispatch(getHousesById(id + ""));
     }
   }, [dispatch, id]);
 
   useEffect(() => {
     if (house?.owner) {
-      dispatch(getUserById(house.owner));
+      dispatch(getOwnerById(house.owner));
     }
   }, [dispatch, house?.owner]);
 
   useEffect(() => {
-    if (user && user.name) {
-      console.log(user.name.kg);
+    if (owner && owner.name) {
+      console.log(owner.name.kg);
     }
-  }, [user]);
+  }, [owner]);
 
-  return user && house ? (
+  return owner && house ? (
     <div className="max-w-5xl mx-auto p-6 bg-gray-50 text-gray-800">
-      <div className="mb-8 border-b pb-4 flex flex-col gap-4">
-        <div className="flex items-center gap-2">
+      <div className="mb-8 border-b pb-4 flex flex-col gap-4 ">
+        <div className="flex items-center gap-2 justify-between w-full">
           <h1 className="text-3xl md:text-4xl font-bold capitalize">
             {house.name?.[lang as keyof typeof house.name]}
-          <button></button>
           </h1>
+          <button className="border-1 border-zinc-700 rounded-lg px-2 py-1">Add</button>
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
           <div className="flex items-center flex-wrap gap-2">
@@ -82,7 +82,7 @@ const Page = () => {
         <div className="flex items-center gap-2 text-lg">
           <AccountCircleOutlinedIcon />
           <span className="font-semibold capitalize">{t("owner")}:</span>{" "}
-          {user?.name?.[lang as keyof typeof user.name] || user?.name?.en}
+          {owner?.name?.[lang as keyof typeof owner.name] || owner?.name?.en}
         </div>
       </div>
 
@@ -224,15 +224,15 @@ const Page = () => {
           </h2>
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("name")}:</span>{" "}
-            {user?.name?.[lang as keyof typeof user.name] || user?.name?.en}
+            {owner?.name?.[lang as keyof typeof owner.name] || owner?.name?.en}
           </p>
           <p className="text-lg">
             <span className="font-semibold capitalize">{t("phone")}:</span>{" "}
-            {user && user.phone}
+            {owner && owner.phone}
           </p>
           <p className="text-lg break-words">
             <span className="font-semibold capitalize">{t("email")}:</span>{" "}
-            {user && user.email}
+            {owner && owner.email}
           </p>
         </div>
       </section>

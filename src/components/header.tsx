@@ -16,16 +16,16 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { logout } from "@/store/user/user.slice";
-import { getUserById } from "@/store/user/user.action";
+import { getOwnerById } from "@/store/user/user.action";
 
-const pages = ["hotels", "aboutus", "contacts"];
+const pages = ["hotels"];
 const langs = ["en", "ru", "kg", "kz"];
 function ResponsiveAppBar() {
   const { t } = useTranslation();
   const lang = Cookies.get("i18next");
   const [, setLang] = React.useState(lang);
   const id = localStorage.getItem("id");
-  const user = useAppSelector((state) => state.users.user);
+  const user = useAppSelector((state) => state.users.owner);
   function changeLnaguage(languageCode: string) {
     setLang(languageCode);
     Cookies.set("i18next", languageCode);
@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
 
   React.useEffect(() => {
     if (id) {
-      getUserById(id);
+      getOwnerById(id);
     }
   }, []);
 
@@ -266,17 +266,17 @@ function ResponsiveAppBar() {
                   >
                     {t("account")}
                   </Link>{" "}
-                  {user && user.type === "user" ? (
-                    ""
-                  ) : (
+                  {user?.type === "owner" ? (
                     <Link
-                      href={"/dashboard"}
+                      href={`/dashboard/${id}`}
                       replace={false}
                       style={{ fontSize: "16px", fontWeight: "medium" }}
                       onClick={handleCloseUserMenu}
                     >
                       {t("dashboard")}
                     </Link>
+                  ) : (
+                    ""
                   )}
                   <button
                     onClick={() => {

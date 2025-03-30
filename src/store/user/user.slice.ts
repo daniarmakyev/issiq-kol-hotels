@@ -1,33 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFavorite, getUserById, login, updateUser } from "./user.action";
-
-interface LocalizedText {
-    en: string;
-    ru: string;
-    kg: string;
-    kz: string;
-}
-export interface User {
-    id?: string | number;  // В JSON это строка, в интерфейсе было число
-    type?: string;
-    name?: LocalizedText;
-    phone?: string;
-    email?: string;
-    password?: string;
-    payment?: number;
-    rented?: number[];
-    rented_before?: number[];
-    favorites?: number[];
-    avaible_hotels?: number[];  
-    disable_hotels?: number[];   
-    hotels?: number[];     
-}
-export interface UserRespons {
-    user: User | null
-}
+import { addFavorite, getOwnerById, getUserById, login, updateUser } from "./user.action";
+import { UserRespons } from "@/helpers/types";
 
 const INIT_STATE: UserRespons = {
-    user: null
+    user: null,
+    owner:null
 };
 
 export const userSlice = createSlice({
@@ -45,6 +22,8 @@ export const userSlice = createSlice({
             state.user = payload
         }).addCase(updateUser.fulfilled, (state, { payload }) => {
             state.user = payload
+        }).addCase(getOwnerById.fulfilled, (state, { payload }) => {
+            state.owner = payload
         })
     },
 });

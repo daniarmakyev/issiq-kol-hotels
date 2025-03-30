@@ -158,7 +158,7 @@ const ProfilePage: FC = () => {
     if(user && user.type !== "user"){
       setEdit(true)
     }
-  }, []);
+  }, [user]);
   const handleCancelEdit = () => {
     setFormData(initialFormData);
     setEdit(false);
@@ -258,13 +258,13 @@ const ProfilePage: FC = () => {
             </ul>
 
             <div className="sm:text-18 font-semibold gap-5 justify-center bottom-9 flex mt-8">
-              <button
+              {user&& user.type === "user" ?               <button
                 type="button"
                 onClick={handleCancelEdit}
                 className="w-20 h-10 md:w-32 md:h-11 text-green cursor-pointer bg-white rounded-lg shadow-[0px_0px_13px_-3px_#636363] hover:bg-[#ee685f] hover:text-white active:bg-[#ee685f] active:text-white transition-colors"
               >
                 {t("cancel")}
-              </button>
+              </button> : ""}
               <button
                 type="submit"
                 disabled={!formValid || !formChanged || loading}
