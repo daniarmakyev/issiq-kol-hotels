@@ -127,7 +127,7 @@ function ResponsiveAppBar() {
             }}
           >
             {pages.map((page) => (
-              <div key={"213131"} className="flex gap-3 gap-y-3">
+              <div key={"213131"} className="flex gap-3 gap-y-3 flex-col">
                 <MenuItem
                   key={page}
                   onClick={handleCloseNavMenu}
