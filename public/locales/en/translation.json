@@ -65,5 +65,7 @@
   "required_field": "This field is required",
   "edit_profile": "Edit Profile",
   "your_favorites": "Your favorites",
-  "rent": "rent"
+  "rent": "rent",
+  "cancel_rent": "cancel rent",
+  "map":"Map"
 }

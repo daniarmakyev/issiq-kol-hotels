@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import {
@@ -15,11 +14,18 @@ import {
   Divider,
   Chip,
   IconButton,
-  Box
+  Box,
 } from "@mui/joy";
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { HouseFormProps, House, LocalizedText, LocalizedStringArray } from "@/helpers/types";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  HouseFormProps,
+  House,
+  LocalizedText,
+  LocalizedStringArray,
+  Geo,
+} from "@/helpers/types";
+import dynamic from "next/dynamic";
 
 type OptionType = {
   value: string;
@@ -27,11 +33,11 @@ type OptionType = {
 };
 
 const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
-    const [id, setId] = useState<string>()
-    useEffect(() => {
-        const id = localStorage.getItem("id")
-        setId(id+'')
-    },[])
+  const [id, setId] = useState<string>();
+  useEffect(() => {
+    const id = localStorage.getItem("id");
+    setId(id + "");
+  }, []);
 
   const [house, setHouse] = useState<House>({
     name: { en: "", ru: "", kg: "", kz: "" },
@@ -66,9 +72,17 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
     amenities_count: 0,
     rating: 0,
   });
-
+  const MapComponent = dynamic(() => import("./mapComp"), {
+    ssr: false,
+    loading: () => <div>Loading map...</div>,
+  });
   type LanguageKey = keyof LocalizedText;
-  
+  const handleMapPositionChange = (newGeo: Geo) => {
+    setHouse((prev) => ({
+      ...prev,
+      geo: newGeo,
+    }));
+  };
   const [currentLanguage, setCurrentLanguage] = useState<LanguageKey>("en");
   const [newAmenity, setNewAmenity] = useState<string>("");
   const [newService, setNewService] = useState<string>("");
@@ -93,18 +107,18 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
     { value: "house", label: "House" },
     { value: "guesthouse", label: "Guest House" },
     { value: "villa", label: "Villa" },
-    { value: "hotel", label: "Hotel" }
+    { value: "hotel", label: "Hotel" },
   ];
 
   const typeOptions: OptionType[] = [
     { value: "house", label: "House" },
     { value: "apartment", label: "Apartment" },
-    { value: "room", label: "Room" }
+    { value: "room", label: "Room" },
   ];
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    
+
     const allLanguagesFilled = ["en", "ru", "kg", "kz"].every((lang) => {
       const language = lang as LanguageKey;
       return (
@@ -114,31 +128,40 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
         house.policies.cancellation[language].trim() !== ""
       );
     });
-    
+
     const currentServicesCount = house.services[currentLanguage].length;
     const currentAmenitiesCount = house.amenities[currentLanguage].length;
 
-    const hasAmenities = Object.values(house.amenities).some(arr => arr.length > 0);
-    const hasServices = Object.values(house.services).some(arr => arr.length > 0);
+    const hasAmenities = Object.values(house.amenities).some(
+      (arr) => arr.length > 0
+    );
+    const hasServices = Object.values(house.services).some(
+      (arr) => arr.length > 0
+    );
     const hasImages = house.images.length > 0;
-    
+
     if (!allLanguagesFilled || !hasAmenities || !hasServices || !hasImages) {
-      alert("Please fill in all required fields for all languages and add at least one amenity, service, and image.");
+      alert(
+        "Please fill in all required fields for all languages and add at least one amenity, service, and image."
+      );
       return;
     }
 
     const updatedHouse = {
-        ...house,
-        owner: id || "0",
-        rating: 0, 
-        services_count: currentServicesCount,
-        amenities_count: currentAmenitiesCount,
-      };
-    
+      ...house,
+      owner: id || "0",
+      rating: 0,
+      services_count: currentServicesCount,
+      amenities_count: currentAmenitiesCount,
+    };
+
     onSubmit(updatedHouse);
   };
 
-  const handleChange = <K extends keyof House>(field: K, value: House[K]): void => {
+  const handleChange = <K extends keyof House>(
+    field: K,
+    value: House[K]
+  ): void => {
     setHouse({ ...house, [field]: value });
   };
 
@@ -160,28 +183,40 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
     });
   };
 
-  const handleContactChange = (field: keyof House["contact"], value: string): void => {
+  const handleContactChange = (
+    field: keyof House["contact"],
+    value: string
+  ): void => {
     setHouse({
       ...house,
       contact: { ...house.contact, [field]: value },
     });
   };
 
-  const handleAvailabilityChange = (field: keyof House["availability"], value: number | string): void => {
+  const handleAvailabilityChange = (
+    field: keyof House["availability"],
+    value: number | string
+  ): void => {
     setHouse({
       ...house,
       availability: { ...house.availability, [field]: value },
     });
   };
 
-  const handlePoliciesChange = (field: keyof House["policies"], value: boolean | LocalizedText): void => {
+  const handlePoliciesChange = (
+    field: keyof House["policies"],
+    value: boolean | LocalizedText
+  ): void => {
     setHouse({
       ...house,
       policies: { ...house.policies, [field]: value },
     });
   };
 
-  const handleCancellationChange = (language: LanguageKey, value: string): void => {
+  const handleCancellationChange = (
+    language: LanguageKey,
+    value: string
+  ): void => {
     setHouse({
       ...house,
       policies: {
@@ -193,34 +228,34 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
 
   const addAmenity = (): void => {
     if (!newAmenity.trim()) return;
-    
+
     const updatedAmenities = { ...house.amenities } as LocalizedStringArray;
     updatedAmenities[currentLanguage] = [
       ...updatedAmenities[currentLanguage],
       newAmenity.trim(),
     ];
-    
+
     setHouse({ ...house, amenities: updatedAmenities });
     setNewAmenity("");
   };
 
   const removeAmenity = (index: number): void => {
     const updatedAmenities = { ...house.amenities } as LocalizedStringArray;
-    updatedAmenities[currentLanguage] = updatedAmenities[currentLanguage].filter(
-      (_, i) => i !== index
-    );
+    updatedAmenities[currentLanguage] = updatedAmenities[
+      currentLanguage
+    ].filter((_, i) => i !== index);
     setHouse({ ...house, amenities: updatedAmenities });
   };
 
   const addService = (): void => {
     if (!newService.trim()) return;
-    
+
     const updatedServices = { ...house.services } as LocalizedStringArray;
     updatedServices[currentLanguage] = [
       ...updatedServices[currentLanguage],
       newService.trim(),
     ];
-    
+
     setHouse({ ...house, services: updatedServices });
     setNewService("");
   };
@@ -248,12 +283,17 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack spacing={2} sx={{ mb: 3, maxHeight: '70vh', overflowY: 'auto', p: 1 }}>
+      <Stack
+        spacing={2}
+        sx={{ mb: 3, maxHeight: "70vh", overflowY: "auto", p: 1 }}
+      >
         <FormControl>
           <FormLabel>Language</FormLabel>
           <Select
             value={currentLanguage}
-            onChange={(_, value) => value && setCurrentLanguage(value as LanguageKey)}
+            onChange={(_, value) =>
+              value && setCurrentLanguage(value as LanguageKey)
+            }
           >
             <Option value="en">English</Option>
             <Option value="ru">Russian</Option>
@@ -285,33 +325,46 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             required
           />
         </FormControl>
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
+            <FormControl sx={{ width: "50%" }} required>
+              <FormLabel>Latitude *</FormLabel>
+              <Input
+                type="number"
+                value={house.geo.latitude}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleGeoChange("latitude", e.target.value)
+                }
+                slotProps={{
+                  input: { step: "0.000001" },
+                }}
+                required
+              />
+            </FormControl>
 
-        <Stack direction="row" spacing={2}>
-          <FormControl sx={{ width: "50%" }} required>
-            <FormLabel>Latitude *</FormLabel>
-            <Input
-              type="number"
-              value={house.geo.latitude}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleGeoChange("latitude", e.target.value)}
-              slotProps={{
-                input: { step: "0.000001" }
-              }}
-              required
-            />
-          </FormControl>
+            <FormControl sx={{ width: "50%" }} required>
+              <FormLabel>Longitude *</FormLabel>
+              <Input
+                type="number"
+                value={house.geo.longitude}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleGeoChange("longitude", e.target.value)
+                }
+                slotProps={{
+                  input: { step: "0.000001" },
+                }}
+                required
+              />
+            </FormControl>
+          </Stack>
 
-          <FormControl sx={{ width: "50%" }} required>
-            <FormLabel>Longitude *</FormLabel>
-            <Input
-              type="number"
-              value={house.geo.longitude}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleGeoChange("longitude", e.target.value)}
-              slotProps={{
-                input: { step: "0.000001" }
-              }}
-              required
+          <Box sx={{ width: "100%", height: "400px", mt: 2 }}>
+            <MapComponent
+              lat={house.geo.latitude}
+              lng={house.geo.longitude}
+              onPositionChange={handleMapPositionChange}
             />
-          </FormControl>
+          </Box>
         </Stack>
 
         <Divider />
@@ -355,7 +408,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.price}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("price", parseInt(e.target.value) || 0)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("price", parseInt(e.target.value) || 0)
+              }
               required
             />
           </FormControl>
@@ -381,9 +436,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.limit}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("limit", parseInt(e.target.value) || 1)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("limit", parseInt(e.target.value) || 1)
+              }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -394,9 +451,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.square}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("square", parseInt(e.target.value) || 0)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("square", parseInt(e.target.value) || 0)
+              }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -409,9 +468,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.beds}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("beds", parseInt(e.target.value) || 1)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("beds", parseInt(e.target.value) || 1)
+              }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -422,9 +483,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.rooms}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("rooms", parseInt(e.target.value) || 1)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("rooms", parseInt(e.target.value) || 1)
+              }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -435,9 +498,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.bathrooms}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("bathrooms", parseInt(e.target.value) || 1)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("bathrooms", parseInt(e.target.value) || 1)
+              }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -452,7 +517,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <FormLabel>Check-in Time *</FormLabel>
             <Select
               value={house.availability.check_in}
-              onChange={(_, value) => value && handleAvailabilityChange("check_in", value)}
+              onChange={(_, value) =>
+                value && handleAvailabilityChange("check_in", value)
+              }
               required
             >
               {timeOptions.map((time) => (
@@ -467,7 +534,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <FormLabel>Check-out Time *</FormLabel>
             <Select
               value={house.availability.check_out}
-              onChange={(_, value) => value && handleAvailabilityChange("check_out", value)}
+              onChange={(_, value) =>
+                value && handleAvailabilityChange("check_out", value)
+              }
               required
             >
               {timeOptions.map((time) => (
@@ -485,11 +554,14 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.availability.total_count}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                handleAvailabilityChange("total_count", parseInt(e.target.value) || 1)
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleAvailabilityChange(
+                  "total_count",
+                  parseInt(e.target.value) || 1
+                )
               }
               slotProps={{
-                input: { min: "1" }
+                input: { min: "1" },
               }}
               required
             />
@@ -500,14 +572,17 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <Input
               type="number"
               value={house.availability.available_count}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                handleAvailabilityChange("available_count", parseInt(e.target.value) || 0)
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleAvailabilityChange(
+                  "available_count",
+                  parseInt(e.target.value) || 0
+                )
               }
               slotProps={{
-                input: { 
+                input: {
                   min: "0",
-                  max: house.availability.total_count.toString()
-                }
+                  max: house.availability.total_count.toString(),
+                },
               }}
               required
             />
@@ -523,7 +598,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             minRows={3}
             value={house.description[currentLanguage]}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              handleLocalizedChange("description", currentLanguage, e.target.value)
+              handleLocalizedChange(
+                "description",
+                currentLanguage,
+                e.target.value
+              )
             }
             required
           />
@@ -531,17 +610,19 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
 
         <Divider />
         <Typography level="h4">Amenities</Typography>
-        
+
         <Typography color="warning" level="body-sm">
           * At least one amenity is required for each language
         </Typography>
-        
+
         <Stack direction="row" spacing={2} sx={{ alignItems: "flex-end" }}>
           <FormControl sx={{ width: "70%" }}>
             <FormLabel>Add Amenity *</FormLabel>
             <Input
               value={newAmenity}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewAmenity(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewAmenity(e.target.value)
+              }
               placeholder="WiFi, Pool, etc."
             />
           </FormControl>
@@ -578,7 +659,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
 
         <Divider />
         <Typography level="h4">Services</Typography>
-        
+
         <Typography color="warning" level="body-sm">
           * At least one service is required for each language
         </Typography>
@@ -588,7 +669,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <FormLabel>Add Service *</FormLabel>
             <Input
               value={newService}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewService(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewService(e.target.value)
+              }
               placeholder="Cleaning, Breakfast, etc."
             />
           </FormControl>
@@ -625,7 +708,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
 
         <Divider />
         <Typography level="h4">Images</Typography>
-        
+
         <Typography color="warning" level="body-sm">
           * At least one image is required
         </Typography>
@@ -635,7 +718,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
             <FormLabel>Add Image URL *</FormLabel>
             <Input
               value={newImage}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewImage(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewImage(e.target.value)
+              }
               placeholder="https://example.com/image.jpg"
             />
           </FormControl>
@@ -661,7 +746,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
                   width: "80%",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  whiteSpace: "nowrap"
+                  whiteSpace: "nowrap",
                 }}
               >
                 {image}
@@ -684,7 +769,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
           <FormLabel>Phone *</FormLabel>
           <Input
             value={house.contact.phone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleContactChange("phone", e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleContactChange("phone", e.target.value)
+            }
             placeholder="+996 XXX XXX XXX"
             required
           />
@@ -695,7 +782,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
           <Input
             type="email"
             value={house.contact.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleContactChange("email", e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleContactChange("email", e.target.value)
+            }
             required
           />
         </FormControl>
@@ -707,7 +796,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
           <FormLabel>Pets Allowed</FormLabel>
           <Checkbox
             checked={house.policies.pets_allowed}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handlePoliciesChange("pets_allowed", e.target.checked)
             }
           />
@@ -727,7 +816,11 @@ const HouseForm: React.FC<HouseFormProps> = ({ onSubmit, onClose }) => {
         </FormControl>
       </Stack>
 
-      <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end", mt: 2 }}>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ justifyContent: "flex-end", mt: 2 }}
+      >
         <Button variant="outlined" color="neutral" onClick={onClose}>
           Cancel
         </Button>

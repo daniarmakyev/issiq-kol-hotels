@@ -1,6 +1,6 @@
 "use client"
 import { createSlice } from "@reduxjs/toolkit";
-import { getCreated, getFav, getHouses, getHousesById, getSpecialHouses, getUserRentedHouses } from "./house.action";
+import { getAllHouses, getCreated, getFav, getHouses, getHousesById, getSpecialHouses, getUserRentedHouses } from "./house.action";
 import { HousesResponse } from "@/helpers/types";
 
 
@@ -13,7 +13,8 @@ const INIT_STATE: HousesResponse = {
     userRented: {
         rented: [],
         rentedBef: []
-    }
+    },
+    all:[]
 };
 
 export const houseSlice = createSlice({
@@ -41,6 +42,8 @@ export const houseSlice = createSlice({
                     !state.favorites.some(existing => existing.id === newHouse.id)
                 );
                 state.favorites.push(...newHouses);
+            }).addCase(getAllHouses.fulfilled, (state, { payload }) => {
+                state.all = payload;
             })
     },
 });

@@ -44,7 +44,7 @@ interface Policies {
 // }
 
 export interface House {
-    id?: number;
+    id?: number | string;
     name: LocalizedText;
     location: LocalizedText;
     geo: Geo;
@@ -88,7 +88,7 @@ export interface HousesResponse {
         rentedBef: House[],
         rented: House[],
     }
-
+    all:House[]
 }
 
 

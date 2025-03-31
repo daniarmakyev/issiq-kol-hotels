@@ -127,25 +127,46 @@ function ResponsiveAppBar() {
             }}
           >
             {pages.map((page) => (
-              <MenuItem
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ textTransform: "lowercase" }}
-              >
-                <Link
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "medium",
-                    textTransform: "capitalize",
-                    textDecoration: "none",
-                    color: "#262729",
-                  }}
-                  replace={false}
-                  href={`/${page}`}
+              <div key={"213131"} className="flex gap-3 gap-y-3">
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ textTransform: "lowercase" }}
                 >
-                  {t(page)}
-                </Link>
-              </MenuItem>
+                  <Link
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "medium",
+                      textTransform: "capitalize",
+                      textDecoration: "none",
+                      color: "#262729",
+                    }}
+                    replace={false}
+                    href={`/${page}`}
+                  >
+                    {t(page)}
+                  </Link>
+                </MenuItem>
+                <MenuItem
+                  key={"map"}
+                  onClick={handleCloseNavMenu}
+                  sx={{ textTransform: "lowercase" }}
+                >
+                  <Link
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "medium",
+                      textTransform: "capitalize",
+                      textDecoration: "none",
+                      color: "#262729",
+                    }}
+                    replace={false}
+                    href={`/map/${76.63146082137607}/${42.47699365097252}`}
+                  >
+                    {t("map")}
+                  </Link>
+                </MenuItem>
+              </div>
             ))}
           </Menu>
         </Box>
@@ -168,22 +189,38 @@ function ResponsiveAppBar() {
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {pages.map((page) => (
-            <Link
-              key={page}
-              replace={false}
-              onClick={handleCloseNavMenu}
-              style={{
-                marginLeft: 2,
-                marginRight: 2,
-                color: "black",
-                display: "block",
-                fontSize: "16px",
-                fontWeight: "medium",
-              }}
-              href={`/${page}`}
-            >
-              {t(page)}
-            </Link>
+            <div className="flex-grow hidden md:flex gap-3" key={"123"}>
+              <Link
+                key={page}
+                replace={false}
+                onClick={handleCloseNavMenu}
+                style={{
+                  marginLeft: 2,
+                  marginRight: 2,
+                  color: "black",
+                  display: "block",
+                  fontSize: "16px",
+                  fontWeight: "medium",
+                }}
+                href={`/${page}`}
+              >
+                {t(page)}
+              </Link>
+              <Link
+                key={"map"}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "medium",
+                  textTransform: "capitalize",
+                  textDecoration: "none",
+                  color: "#262729",
+                }}
+                replace={false}
+                href={`/map/${76.63146082137607}/${42.47699365097252}`}
+              >
+                {t("map")}
+              </Link>
+            </div>
           ))}
         </Box>
         <Box sx={{ marginRight: "20px" }}>

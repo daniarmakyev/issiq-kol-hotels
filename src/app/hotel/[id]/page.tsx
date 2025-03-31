@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -14,6 +14,7 @@ import Image from "next/image";
 import {
   Button,
   CircularProgress,
+  Link,
   Modal,
   ModalClose,
   Sheet,
@@ -91,11 +92,25 @@ const Page = () => {
     }
   };
 
-  function rentFunc(houseid: string | number, userId:string|number) {
+  function rentFunc(houseid: string | number, userId: string | number) {
+    if (houseid && userId) {
+      dispatch(
+        updateUser({
+          id: userId,
+          data: { rented: [String(houseid)] },
+        })
+      );
+      setOpen(false);
+    } else {
+      alert("Заполните все поля");
+    }
+  }
+
+  function unRentFunc(houseid: string | number, userId: string | number) {
     dispatch(
       updateUser({
         id: userId,
-        data: { rented: [String(houseid)] },
+        data: { rented: [] },
       })
     );
   }
@@ -171,7 +186,13 @@ const Page = () => {
                       <h4>Ваша карта: </h4>
                       <span>{user.payment}</span>
                     </div>
-                    <button className="border-1 border-zinc-600 px-2 py-1 rounded-lg mt-3">
+                    <button
+                      className="border border-zinc-600 px-2 py-1 rounded-lg mt-3"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        rentFunc(String(house.id), String(user.id));
+                      }}
+                    >
                       Оплатить
                     </button>
                   </form>
@@ -186,27 +207,46 @@ const Page = () => {
           <h1 className="text-3xl md:text-4xl font-bold capitalize">
             {house.name?.[lang as keyof typeof house.name]}
           </h1>
-          {house.id && user && user?.type === "user" ? (
-            <Button
-              variant="outlined"
-              color="neutral"
-              onClick={() => {
-                setOpen(true);
-                rentFunc(house.id + "", user.id+'');
-              }}
-            >
-              {t("rent")}
-            </Button>
-          ) : (
-            ""
-          )}
+          {house.id &&
+            user &&
+            user.type === "user" &&
+            (!user.rented?.includes(house.id + "") ? (
+              <Button
+                variant="outlined"
+                color="neutral"
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                {t("rent")}
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="neutral"
+                onClick={(e) => {
+                  e.preventDefault();
+                  unRentFunc(String(house.id), String(user.id));
+                }}
+              >
+                {t("cancel_rent")}
+              </Button>
+            ))}
         </div>
-        <div className="flex items-center flex-wrap gap-2 text-lg">
+        <div className="flex items-center justify-between flex-wrap gap-2 text-lg">
           <div className="flex items-center flex-wrap gap-2">
             <LocationOnOutlinedIcon />
             <span className="font-semibold capitalize">{t("location")}:</span>
           </div>
-          {house.location?.[lang as keyof typeof house.location]}
+          <span>{house.location?.[lang as keyof typeof house.location]}</span>
+          <Link
+            href={`/map/${house.geo.longitude}/${house.geo.latitude}`}
+            variant="outlined"
+            color="neutral"
+            sx={{borderRadius:"10px", py:"5px", px:"8px"}}
+          >
+            Показать на карте
+          </Link>
         </div>
         <div className="flex items-center flex-wrap gap-2 text-lg">
           <BedOutlinedIcon />

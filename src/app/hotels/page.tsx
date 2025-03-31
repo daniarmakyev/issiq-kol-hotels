@@ -10,6 +10,7 @@ import CardSekelet from "@/components/cardSekelet";
 import { Button, Select, Option } from "@mui/joy";
 import { getUserById } from "@/store/user/user.action";
 import { CircularProgress } from "@mui/material";
+import Link from "next/link";
 const arr = [1, 2, 3, 4, 5, 6];
 
 const Page = () => {
@@ -112,13 +113,13 @@ const Page = () => {
     <div className="bg-white  min-h-[96vh]">
       <div className="container pt-5">
         <div className=" flex justify-between text-sm">
-          <Button
-            variant="outlined"
-            color="danger"
-            sx={{ fontSize: "14px", fontWeight: "400" }}
+          <Link
+            className="border border-red-400 rounded-lg text-red-400 py-2 px-3"
+            replace={false}
+            href={`/map/${76.63146082137607}/${42.47699365097252}`}
           >
             Show on map
-          </Button>
+          </Link>
 
           <div className="flex items-center gap-5">
             <div className="max-w-3xs flex items-center gap-2">

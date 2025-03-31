@@ -20,6 +20,12 @@ export const getHouses = createAsyncThunk("houses/getHouses", async ({ page, ite
     }
 });
 
+export const getAllHouses = createAsyncThunk("houses/getAllHouses" ,async () => {
+    const { data } = await axios.get(`http://localhost:3001/houses`);
+    return data
+
+})
+
 export const createHouse = createAsyncThunk("houses/createHouse", async (house: House) => {
     await axios.post("http://localhost:3001/houses", house);
 });
