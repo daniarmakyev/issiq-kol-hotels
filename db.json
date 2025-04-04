@@ -37,6 +37,25 @@
       ],
       "avaible_hotels": [],
       "disable_hotels": []
+    },
+    {
+      "id": "ba18",
+      "name": {
+        "en": "курманбек",
+        "ru": "курманбек",
+        "kz": "курманбек",
+        "kg": "курманбек"
+      },
+      "phone": "0700944240",
+      "email": "kurmanbeknur10@gmail.com",
+      "password": "kurmanbek6869",
+      "payment": 0,
+      "type": "user",
+      "favorites": [],
+      "rented": [
+        "2"
+      ],
+      "rented_before": []
     }
   ],
   "houses": [

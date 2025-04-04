@@ -7,13 +7,31 @@ import {
   StandaloneSearchBox,
   LoadScript,
   DirectionsRenderer,
-  MarkerClusterer
+  OverlayView
 } from "@react-google-maps/api";
 import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/helpers/hooks";
 import { getAllHouses } from "@/store/house/house.action";
 
-const LIBRARIES: "places"[] = ["places"];
+
+type LatLng = {
+  lat: number;
+  lng: number;
+};
+
+type HouseMarker = LatLng & {
+  id: string | number;
+  price?: number;
+  currency?: string;
+};
+
+type PriceMarkerProps = {
+  position: LatLng;
+  price?: number;
+  currency?: string;
+};
+
+const LIBRARIES: ("places")[] = ["places"];
 
 const MapPage = () => {
   const googleMapsApiKey = process.env.NEXT_PUBLIC_MAP_KEY;
@@ -22,37 +40,24 @@ const MapPage = () => {
   const lng = params?.lng as string;
   const lat = params?.lat as string;
 
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const [isScriptLoaded, setIsScriptLoaded] = useState<boolean>(false);
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [selectedMarker, setSelectedMarker] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
-  const [baseMarker, setBaseMarker] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
-  const [houseMarkers, setHouseMarkers] = useState<Array<{
-    lat: number;
-    lng: number;
-    id: string | number;
-  }>>([]);
+  const [selectedMarker, setSelectedMarker] = useState<LatLng | null>(null);
+  const [baseMarker, setBaseMarker] = useState<LatLng | null>(null);
+  const [houseMarkers, setHouseMarkers] = useState<HouseMarker[]>([]);
   const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
-  const [directions, setDirections] =
+  const [directions, setDirections] = 
     useState<google.maps.DirectionsResult | null>(null);
   const [routeStatus, setRouteStatus] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const defaultLocation = { lat: 42.840421654800046, lng: 74.60119790139834 };
-  const [mapCenter, setMapCenter] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  const defaultLocation: LatLng = { lat: 42.840421654800046, lng: 74.60119790139834 };
+  const [mapCenter, setMapCenter] = useState<LatLng | null>(null);
   const dispatch = useAppDispatch();
   const { all } = useAppSelector((state) => state.houses);
 
   useEffect(() => {
     if (lng && lat) {
-      const paramsLocation = {
+      const paramsLocation: LatLng = {
         lat: parseFloat(lat),
         lng: parseFloat(lng),
       };
@@ -67,7 +72,7 @@ const MapPage = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const userLocation = {
+          const userLocation: LatLng = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
@@ -90,18 +95,19 @@ const MapPage = () => {
 
   useEffect(() => {
     if (all && all.length > 0) {
-      const markers = all
+      const markers: HouseMarker[] = all
         .filter(item => item.geo && item.geo.latitude && item.geo.longitude)
         .map(item => ({
           lat: item.geo.latitude,
           lng: item.geo.longitude,
-          id: item.id || Math.random().toString(36).substring(2, 9)
+          id: item.id || Math.random().toString(36).substring(2, 9),
+          price: item.price,
+          currency: item.currency
         }));
       
       setHouseMarkers(markers);
     }
   }, [all]);
-
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -161,7 +167,7 @@ const MapPage = () => {
       if (places && places.length > 0) {
         const location = places[0].geometry?.location;
         if (location) {
-          const newCenter = {
+          const newCenter: LatLng = {
             lat: location.lat(),
             lng: location.lng(),
           };
@@ -190,8 +196,34 @@ const MapPage = () => {
     );
   };
 
+  const PriceMarker: React.FC<PriceMarkerProps> = ({ position, price, currency }) => {
+    return (
+      <OverlayView
+        position={position}
+        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+        getPixelPositionOffset={(width: number, height: number) => ({
+          x: -(width / 2),
+          y: -(height / 2)
+        })}
+      >
+        <div 
+          className="bg-white rounded-md shadow-md px-2 py-1 border-2 border-blue-500 w-fit cursor-pointer select-none"
+          style={{ 
+            fontWeight: 'bold',
+            fontSize: '12px',
+            zIndex: 1000,
+            whiteSpace: 'nowrap',
+            textAlign: 'center'
+          }}
+          onClick={() => handleHouseMarkerClick(position)}
+        >
+        <span>  {price} {currency}</span>
+        </div>
+      </OverlayView>
+    );
+  };
 
-  const handleHouseMarkerClick = (marker: { lat: number; lng: number }) => {
+  const handleHouseMarkerClick = (marker: LatLng): void => {
     setSelectedMarker(marker);
     if (map) {
       map.panTo(marker);
@@ -201,7 +233,7 @@ const MapPage = () => {
 
   return (
     <LoadScript
-      googleMapsApiKey={googleMapsApiKey}
+      googleMapsApiKey={googleMapsApiKey!}
       libraries={LIBRARIES}
       onLoad={() => setIsScriptLoaded(true)}
     >
@@ -210,11 +242,10 @@ const MapPage = () => {
           mapContainerStyle={{ width: "100%", height: "90vh" }}
           center={mapCenter || defaultLocation}
           zoom={10}
-          onLoad={(mapInstance) => setMap(mapInstance)}
+          onLoad={(mapInstance: google.maps.Map) => setMap(mapInstance)}
         >
           <MySearchBox />
           
-
           {baseMarker && <Marker 
             position={baseMarker} 
             label="A"
@@ -224,7 +255,6 @@ const MapPage = () => {
             }}
           />}
           
-
           {selectedMarker && 
            (!baseMarker || 
             selectedMarker.lat !== baseMarker.lat || 
@@ -239,33 +269,17 @@ const MapPage = () => {
             />
           )}
           
-
           {houseMarkers.length > 0 && (
-            <MarkerClusterer
-              options={{
-                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-                gridSize: 50,
-                maxZoom: 15,
-                minimumClusterSize: 2
-              }}
-            >
-              {(clusterer) => (
-                <>
-                  {houseMarkers.map((marker) => (
-                    <Marker
-                      key={`house-${marker.id}`}
-                      position={{ lat: marker.lat, lng: marker.lng }}
-                      clusterer={clusterer}
-                      onClick={() => handleHouseMarkerClick(marker)}
-                      icon={{
-                        url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-                        scaledSize: new google.maps.Size(30, 30),
-                      }}
-                    />
-                  ))}
-                </>
-              )}
-            </MarkerClusterer>
+            <>
+              {houseMarkers.map((marker) => (
+                <PriceMarker
+                  key={`house-${marker.id}`}
+                  position={{ lat: marker.lat, lng: marker.lng }}
+                  price={marker.price}
+                  currency={marker.currency}
+                />
+              ))}
+            </>
           )}
           
           {loading && (
